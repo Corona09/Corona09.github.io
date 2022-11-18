@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>深度学习笔记 | CoronaのBlog</title><script>var config = {"root":"/","path":""}</script><script src="//unpkg.com/mermaid@8.13.5/dist/mermaid.min.js"></script><script>mermaid.initialize({
+ startOnLoad: true
+ , theme: 'dark'
+});</script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.4.0/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.2"></head><body style="background-image:url(https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg);"><main><header class="closed"><nav><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><ol class="navContent"><li class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></li><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav><div class="search-popup"><div id="search-result"></div></div></header><article><div id="post-bg"><div id="post-title"><h1>深度学习笔记</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2022-08-16T02:53:00.000Z" id="date"> 2022-08-16</time></div></span><br><span>Last Update: <div class="control"><time datetime="2022-11-18T14:58:58.341Z" id="updated"> 2022-11-18</time></div></span><br><span>Word Count: <div class="control">4.3k</div></span><br><span>Read Time: <div class="control">18 min</div></span></div></div><hr><div id="post-content"><h1 id="深度学习笔记"><a href="#深度学习笔记" class="headerlink" title="深度学习笔记"></a>深度学习笔记</h1><h2 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h2><h3 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h3><h4 id="范数"><a href="#范数" class="headerlink" title="范数"></a>范数</h4><p><strong>范数</strong> (norm): $L^p$ 范数的定义如下<br>$$<br>||x||_p = \left(\sum\limits_i |x_i|^p\right)^{\frac{1}{p}}, p\in \R, p\geq 1<br>$$<br>$p=2$ 时 $L^2$ 范数也称<strong>欧几里得范数</strong>, 简记为 $||x||$.</p>
+<h4 id="奇异值分解-1"><a href="#奇异值分解-1" class="headerlink" title="奇异值分解^1"></a>奇异值分解<a href="%5B%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3%E7%9A%84%E6%8F%AD%E7%A7%98%5D(https://zhuanlan.zhihu.com/p/26306568)">^1</a></h4><p>给定$m\times n$的矩阵 $A$, 则 $AA^T\in \R^{m\times m}$, $A^TA\in \R^{m\times m}$都是对称矩阵. </p>
+<p>若$AA^T=P\Lambda_1 P^T$, $A^TA=Q\Lambda_2Q^T$, 则矩阵 $A$ 的奇异值分解为<br>$$<br>A = P\Sigma Q<br>$$<br>其中, 矩阵$P=(\vec{p_1}, \vec{p_2}, \cdots, \vec{p_m})$的大小是$m\times m$, 列向量 $\vec{p_1}, \vec{p_2},\cdots,\vec{p_m}$是$AA^T$的特征向量, 也被称为$A$的<strong>左奇异向量</strong>; 同理, 矩阵$Q=(\vec{q_1}, \vec{q_2},\cdots,\vec{q_n})$, $\vec{q_1}, \vec{q_2}, \cdots, \vec{q_n}$是$A^TA$的特征向量, 也称为$A$的右奇异向量.</p>
+<p>矩阵$\Lambda_1$与矩阵$\Lambda_2$对角元素上的非零元素相同, 即<strong>矩阵$AA^T$与矩阵$A^TA$的非零特征值相同</strong>.</p>
+<p>矩阵$\Sigma$对角线上的元素被称为<strong>奇异值</strong>.</p>
+<p>设矩阵$\Lambda_1$(或$\Lambda_2$)对角线上的非零元素为$\lambda_1, \lambda_2\cdots,\lambda_k(\lambda_i&gt;0)$, 再设矩阵$\Sigma$对角线上的非零元素为$\sigma_1,\sigma_2,\cdots,\sigma_k$,则<br>$$<br>\sigma_i = \sqrt{\lambda_i}, 1\le i \le k<br>$$<br>例如,<br>$$<br>A=\left[\begin{matrix}<br>1 &amp; 2 \<br>0 &amp; 0 \<br>0 &amp; 0<br>\end{matrix}\right]<br>$$<br>则<br>$$<br>AA^T=\left[\begin{matrix}<br>5 &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; 0<br>\end{matrix}\right]<br>$$<br>得到$\lambda_1=5,\lambda_2=0,\lambda_3=0$, 特征向量$\vec{p_1}=(1, 0, 0)^T, \vec{p_2}=(0, 1, 0)^T, \vec{p_3}=(0, 0, 1)^T$; </p>
+<p>由<br>$$<br>A^TA=\left[\begin{matrix}<br>1 &amp; 2 \<br>2 &amp; 4<br>\end{matrix}\right]<br>$$<br>得到特征值 $\lambda_1=5,\lambda_2=0$, 特征向量为$\vec{q_1}=\left(\frac{\sqrt{5}}{5},\frac{2\sqrt{5}}{5}\right)^T, \vec{q_2}=\left(-\frac{2\sqrt{5}}{5},\frac{\sqrt{5}}{5}\right)$</p>
+<p>则<br>$$<br>\Sigma=\left[\begin{matrix}<br>\sqrt{5} &amp; 0 \<br>0 &amp; 0 \<br>0 &amp; 0<br>\end{matrix}\right]<br>$$<br>此时$A$的奇异值分解为<br>$$<br>A=P\Sigma Q^T=(\vec{p_1},\vec{p_2})\Sigma (\vec{q_1},\vec{q_2})^T<br>$$</p>
+<h4 id="Moore-Penrose-伪逆"><a href="#Moore-Penrose-伪逆" class="headerlink" title="Moore-Penrose 伪逆"></a>Moore-Penrose 伪逆</h4><p>非方阵没有逆矩阵, 其 Moore-Penrose 伪逆定义如下:<br>$$<br>A^+ = \lim\limits_{\alpha\rightarrow 0}(A^TA+\alpha I)^{-1}A^T<br>$$<br>实际计算中往往使用如下公式:<br>$$<br>A^+ = VD^+U^T<br>$$<br>其中, 矩阵 $U$, $D$, $V$ 分别是矩阵 $A$ 奇异值分解后得到的矩阵. 对角矩阵 $D$ 的伪逆 $D^+$ 是其非零元素取倒数之后转置得到的.</p>
+<ul>
+<li>当矩阵$A$的列数多于行数时, $x=A^+y$是方程所有可行解中欧几里得范数$|x|_2$最小的;</li>
+<li>当矩阵$A$的行数多于列数时, $x=A^+y$是使得$Ax$和$y$的欧几里得距离$|Ax-y|_2$最小的解.</li>
+</ul>
+<h4 id="迹运算"><a href="#迹运算" class="headerlink" title="迹运算"></a>迹运算</h4><p>迹运算返回的是<strong>矩阵对角元素的和</strong>:<br>$$<br>\mathrm{Tr}(A) = \sum\limits_i A_{i, i}<br>$$</p>
+<ul>
+<li>$Tr(A) = Tr(A^T)$</li>
+<li>$Tr\left(\prod\limits_{i=1}^n F^{(i)}\right)=Tr\left(F^{(n)}\prod\limits_{i=1}^{n-1}F^{(i)}\right)$</li>
+</ul>
+<hr>
+<h3 id="概率论"><a href="#概率论" class="headerlink" title="概率论"></a>概率论</h3><h4 id="独立与条件独立"><a href="#独立与条件独立" class="headerlink" title="独立与条件独立"></a>独立与条件独立</h4><ul>
+<li><p>相互<strong>独立</strong><br>$$<br>\forall x\in X, \forall y\in Y, P(X=x, Y=y) = P(X=x)P(Y=y)<br>$$<br>则称<strong>随机变量$X$与$Y$相互独立</strong>, 记为$X\bot Y$.</p>
+</li>
+<li><p><strong>条件独立</strong><br>$$<br>\forall x\in X, y\in Y, z\in Z, P(X=x, Y=y|Z=z) = P(X=x|Z=z)p(Y=y|Z=z)<br>$$<br>则称<strong>随机变量$X$与$Y$在给定随机变量$Z$时是条件独立的</strong>, 记为$X\bot Y|Z$</p>
+</li>
+</ul>
+<h4 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h4><ul>
+<li><p><strong>sigmoid</strong>函数<br>$$<br>\sigma(x) = \cfrac{1}{1+\exp(x)}<br>$$</p>
+<ul>
+<li>$\sigma(x) = \cfrac{\exp(x)}{\exp(x)+\exp(0)}$</li>
+<li>$\cfrac{\mathrm d}{\mathrm d x}\sigma(x)=\sigma(x)(1-\sigma(x))$</li>
+<li>$1-\sigma(x)=\sigma(-x)$</li>
+<li>$\forall x\in(0,1), \sigma^{-1}(x)=\log\left(\cfrac{x}{1-x}\right)$</li>
+</ul>
+</li>
+<li><p><strong>softplus</strong>函数<br>$$<br>\zeta(x) = \log(1+\exp(x))<br>$$</p>
+<ul>
+<li>$\log \sigma(x)=-\zeta(-x)$</li>
+<li>$\cfrac{\mathrm d}{\mathrm d x}\zeta(x)=\zeta(x)$</li>
+<li>$\forall x&gt;0,\zeta^{-1}(x)=\log(\exp(x)-1)$</li>
+<li>$\zeta(x)=\int_{-\infty}^x\sigma(y)\mathrm d y$</li>
+<li>$\zeta(x)-\zeta(-x)=x$</li>
+</ul>
+</li>
+</ul>
+<h4 id="常用概率分布"><a href="#常用概率分布" class="headerlink" title="常用概率分布"></a>常用概率分布</h4><h5 id="Bernoulli-分布-0-1分布"><a href="#Bernoulli-分布-0-1分布" class="headerlink" title="Bernoulli 分布 (0-1分布)"></a>Bernoulli 分布 (0-1分布)</h5><p>$$<br>P(x=1)=p\<br>P(x=0)=1-p<br>$$</p>
+<h5 id="多项分布"><a href="#多项分布" class="headerlink" title="多项分布"></a>多项分布</h5><p>对二项分布的扩展: 进行 n 次独立同分布实验, 每次实验都有 k 种结果.</p>
+<p>假设进行 n 次实验, 每次实验有 k 种不同的结果, 每种结果出现的概率分别是 $p_1, p_2, \cdots, p_k$<br>$$<br>\mathrm{P}(X_1=x_1,X_2=x_2,\cdots,X_k=x_k)=\cfrac{n!}{x_1!x_2!\cdots x_k!}p_1^{x_1}p_2^{x_2}\cdots p_k^{x_k}<br>$$<br>多项分布对其每一个结果都有均值和方差, 分别为:<br>$$<br>\mathrm E(x_i)=np_i\<br>\mathrm{Var}(x_i)=np_i(1-p_i)<br>$$</p>
+<h5 id="高斯分布"><a href="#高斯分布" class="headerlink" title="高斯分布"></a>高斯分布</h5><p>$$<br>N(x;\mu,\sigma^2)=\sqrt{\cfrac{1}{2\pi\sigma^2}}\exp\left(-\cfrac{1}{2\sigma^2}(x-\mu)^2\right)<br>$$</p>
+<p>推广到$\R^n$空间:<br>$$<br>N(x;\mu, \Sigma)=\sqrt{\cfrac{1}{(2\pi^n)\det(\Sigma)}}\exp\left(-\cfrac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right)<br>$$</p>
+<h5 id="指数分布"><a href="#指数分布" class="headerlink" title="指数分布"></a>指数分布</h5><p>$$<br>p(x;\lambda)=\lambda 1_{x\ge 0}\exp(-\lambda x)<br>$$</p>
+<p>指数分布使用<strong>指示函数</strong> $1_{\lambda\ge 0}$来使得 $x$ 取负值时概率为 0.</p>
+<h5 id="Laplace-分布"><a href="#Laplace-分布" class="headerlink" title="Laplace 分布"></a>Laplace 分布</h5><p>$$<br>\mathrm{Laplace}(x;\mu, \gamma)=\cfrac{1}{2\gamma}\exp\left(-\cfrac{|x-\mu|}{\gamma}\right)<br>$$</p>
+<p>Laplace 分布允许在任意一点$\mu$处设置概率密度的峰值.</p>
+<h3 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h3><p>设两函数为 $f(\vec x), g(\vec x), \vec x$ 为 $n$ 维向量, 则 $f(\vec x)$与$g(\vec x)$卷积定义为<br>$$<br>C(\vec x) = f(\vec x)\cdot g(\vec x) = \int_{-\infty}^{+\infty}f(\vec y)g(\vec x - \vec y)\mathrm d^n\vec y<br>$$<br>特别地, 在一维情况下:<br>$$<br>f(x)\cdot g(x) = \int_{-\infty}^{+\infty}f(y)g(x-y)\mathrm dy<br>$$<br>在二维情况下<br>$$<br>f(x,y)\cdot g(x, y) = \int_{-\infty}^{+\infty}\int_{-\infty}^{+\infty} f(\alpha, \beta)g(x-\alpha, y-\beta)\mathrm d\alpha\mathrm d\beta<br>$$</p>
+<hr>
+<h2 id="机器学习基础"><a href="#机器学习基础" class="headerlink" title="机器学习基础"></a>机器学习基础</h2><h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>我们希望当数据集中数据点的数量 $m$ 增加时, 点估计会收敛到对应参数的真实值. 更形式化得, 我们需要:<br>$$<br>\mathrm {p}\lim\limits_{m\rightarrow\infty}\hat\theta_m=\theta<br>$$<br>符号$\mathrm p\lim$表示依概率收敛, 即对任意的$\varepsilon&gt;0$, 当 $m\rightarrow\infty$时, 有<br>$$<br>P(|\hat\theta_m-\theta|)&gt;\varepsilon<br>$$<br><strong>强一致性</strong>是指<strong>几乎必然</strong>从$\hat\theta$收敛到$\theta$. 几乎必然收敛是指当$P(\lim\limits_{m\rightarrow\infty}x^{(m)}=x)=1$时, 随机变量序列$x^{(1)},x^{(2)},\cdots$收敛到$x$.</p>
+<h3 id="K-折交叉验证"><a href="#K-折交叉验证" class="headerlink" title="K 折交叉验证"></a>K 折交叉验证</h3><p>将数据分为 k 个不重合的子集, 测试误差估计为 k 次计算后的平均测试误差.</p>
+<p>在第 i 次测试时, 数据的第 i 个子集用于测试集, 其他的数据用于训练集.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">将数据集 D 分为 k 个不相交的子集 Di;<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> [<span class="hljs-number">1.</span>.k]:<br>    fi = A(D\Di) <span class="hljs-comment"># A 为学习算法</span><br>    <span class="hljs-keyword">for</span> zj <span class="hljs-keyword">in</span> Di:<br>        ej = L(fi, zj) <span class="hljs-comment"># L 是代价函数</span><br><span class="hljs-keyword">return</span> e<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="前馈神经网络"><a href="#前馈神经网络" class="headerlink" title="前馈神经网络"></a>前馈神经网络</h2><blockquote>
+<p><strong>深度前馈网络</strong>也称<strong>前馈神经网络</strong>, 或<strong>多层感知机</strong>.</p>
+</blockquote>
+<p>前馈网络的目标是接近某个函数$f^*$. 例如对于分类器$y=f^*(x)$将输入$x$映射到一个类别$y$.</p>
+<hr>
+<h2 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h2><h3 id="卷积-1"><a href="#卷积-1" class="headerlink" title="卷积"></a>卷积</h3><h4 id="卷积的概念"><a href="#卷积的概念" class="headerlink" title="卷积的概念"></a>卷积的概念</h4><p>卷积经常用在图像处理中，给定一个图像 $X\in \R^{M\times N}$ 和一个滤波器 $W\in \R^{U\times V}$, 一般有 $U&lt;&lt;M, V&lt;&lt;N$, 其卷积为:</p>
+<p>$$<br>y_{i, j} = \sum\limits_{u=1}^U\sum\limits_{v=1}^V w_{uv}x_{i-u+1,j-v+1}<br>$$<br>简单起见, 这里假设 $y_{i, j}$ 的下标 $i, j$ 从 $U, V$ 开始.</p>
+<center>
+    <img
+        src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/20220901173410.png"
+        width="80%"
+    />
+</center>
+<center><p> 二维卷积示例 </p></center>
+
+<p><em>需要注意的是, 根据卷积的定义, 以上示例在计算时需要进行卷积核的翻转.</em></p>
+<p>在图像处理中, 卷积经常作为特征提取的有效方法.<br>一副图像在经过卷积操作后得到的结果称为<strong>特征映射</strong>.</p>
+<h4 id="互相关"><a href="#互相关" class="headerlink" title="互相关"></a>互相关</h4><p><b>互相关</b>是一个衡量两个序列相关性的函数, 通常使用滑动窗口的<strong>点积</strong>计算来实现, 给定一个图像 $X\in \R^{M\times N}$ 和卷积核 $W\in \R^{U\times V}$, 它们的互相关为</p>
+<p>$$<br>y_{i,j} = \sum\limits_{u=1}^U\sum\limits_{v=1}^V w_{uv}x_{i+u-1, j+v-1}.<br>$$</p>
+<p>互相关和卷积的区别仅仅在于卷积核是否进行翻转, 因此互相关也称为<b>不翻转卷积</b>.</p>
+<h4 id="步长与零填充"><a href="#步长与零填充" class="headerlink" title="步长与零填充"></a>步长与零填充</h4><p><b>步长</b>是指卷积核在滑动时的时间间隔 (如下图 (a)).</p>
+<p><b>零填充</b>是指在输入向量两端进行补零 (如下图 (b)). 假设卷积层的输入神经元个数为 $M$, 卷积大小为 $K$, 步长为 $S$, 在输入两端各填补 $P$ 个 0, 那么该卷积层的神经元数量为 $(M-K+2P)/S+1$. 一般常用的卷积有以下三类:</p>
+<ol>
+<li><b>窄卷积</b> : 步长 $S=1$, 两端不补零 $P=0$, 卷积输出后长度为 $M-K+1$;</li>
+<li><b>宽卷积</b> : 步长 $S=1$, 两端补零 $P=K-1$, 卷积后输出长度 $M-K-1$;</li>
+<li><b>等宽卷积</b> : 步长 $S=1$, 两端补零 $P=(K-1)/2$, 卷积输出后长度为 $M$ (如下图 (b)).</li>
+</ol>
+<p><strong>补一张图</strong></p>
+<h4 id="卷积的数学性质"><a href="#卷积的数学性质" class="headerlink" title="卷积的数学性质"></a>卷积的数学性质</h4><h5 id="交换性"><a href="#交换性" class="headerlink" title="交换性"></a>交换性</h5><p>如果不限制两个卷积信号的长度, 真正的翻转卷积是具有交换性的, 即 $x<em>y=y</em>x$. 对于互相关的卷积, 也同样具有一定的“交换性”.</p>
+<blockquote>
+<p><strong>宽卷积</strong>： 给定一个二维图像 $x\in \R^{M\times N}$ 和一个二维卷积 $W\in\R^{U\times V}$, 对图像 $X$ 进行零填充, 两端各补 $U-1$ 和 $V-1$ 个零, 得到<strong>全填充</strong>的图像$\widetilde X\in \R^{(M+2U-2)\times(N+2V-2)}$. 图像 $X$ 和卷积核 $W$ 的宽卷积定义为<br>$$<br>W\widetilde\otimes X\stackrel{\Delta}{=} W\otimes \widetilde X<br>$$<br>其中 $\widetilde \otimes$ 表示宽卷积运算</p>
+</blockquote>
+<p>当输入的信息和卷积核有固定长度是, 它们的宽卷积依然具有交换性, 即</p>
+<p>$$<br>\mathrm{rot180}(W)\widetilde \otimes X = \mathrm{rot180}(X)\widetilde\otimes W<br>$$</p>
+<p>其中 $\mathrm{rot180}$ 表示旋转 180 度.</p>
+<h5 id="导数"><a href="#导数" class="headerlink" title="导数"></a>导数</h5><p>假设 $Y=W\otimes X$, 其中 $X\in\R^{M\times N}$, $W\in \R^{U\times V}$, $Y\in \R^{(M-U+1)\times(N-V+1)}. 函数 $f(Y)\in\R$为一个标量函数, 则</p>
+<center><img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/20220901214221.png" alt="20220901214221" width="100%"/></center>
+
+<p>其中 $y_{i, j}=\sum\limits_{u, v}w_{u, v}x_{i+u-1, j+v-1}$.</p>
+<p>可以看出, $f(Y)$关于 $W$ 的偏导数为 $X$ 和 $\frac{\partial f(Y)}{\partial Y}$ 的卷积.</p>
+<center><img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/20220901214519.png" alt="20220901214519" width="200px"/> </center>
+
+<p>同理可得</p>
+<p>$$<br>\cfrac{\partial f(Y)}{\partial x_{st}}<br>= \sum\limits_{i=1}^{M-U+1}\sum\limits_{j=1}^{N-V+1}<br>\cfrac{\partial y_{ij}}{\partial x_{st}}\cfrac{\partial f(Y)}{\partial y_{ij}}<br>= \sum\limits_{i=1}^{M-U+1}\sum\limits_{j=1}^{N-V+1}<br>w_{s-i+1, t-j+1}\cfrac{\partial f(Y)}{\partial y_{ij}}<br>$$</p>
+<p>其中当 $(s-i+1)&lt;1$ 或 $(s-i+1)&gt;U$ 或 $(t-j+1)&lt;1$ 或 $(t-j+1)&gt;V$ 时, $w_{s-i+1, t-j+1}=0$. 即相当于对 $W$ 进行了 $P=(M-U, N-V)$ 的零填充.</p>
+<p>从上式 可以看出 $f(Y)$ 关于 $X$ 的偏导数为 $W$ 和 $\frac{\partial f(Y)}{\partial Y}$ 的宽卷积. 上式中的卷积是真正的卷积而非互相关, 为了一致性, 我们用互相关的卷积, 即</p>
+<center><img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/20220901215249.png" alt="20220901215249" width="400px"/> </center>
+
+<h3 id="用卷积代替全连接"><a href="#用卷积代替全连接" class="headerlink" title="用卷积代替全连接"></a>用卷积代替全连接</h3><p>采用卷积代替全连接前馈神经网络中的全连接, 第 $l$ 层的净输入 $z^{(l)}$ 为第 $l-1$ 层活性值 $a^{(l-1)}$ 和卷积核 $w^{(l)}\in\R^K$ 的卷积, 即<br>$$<br>z^{(l)}=w^{(l)}\otimes a^{(l-1)}+b^{(l)}<br>$$<br>其中卷积核 $w^{(l)}\in\R^K$为可学习的权重向量, $b^{(l)}\in\R$ 为可学习的权重偏置.</p>
+<center>
+    <img src="http://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/image-20220903081729455.png" style="width:400px" />
+</center>
+<center><p>全连接层和卷积层的对比</p></center>
+
+<p>卷积层具有<strong>局部连接</strong>和<strong>权重共享</strong>的性质.</p>
+<p>卷积层的参数只有一个 $K$ 维的权重 $w^{(l)}$ 和 1 维的偏置 $b^{(l)}$, 共 $K+1$ 个参数. 参数个数和神经元的数量无关. </p>
+<p>第 $l$ 层的神经元数量满足 $M_l=M_{l-1}-K+1$.</p>
+<h3 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h3><p>假设一个卷积层的结构如下:</p>
+<ol>
+<li><p><b>输入特征映射组</b>: $\mathscr{X} \in \R^{M\times N\times D} $ 为三维张量, 其中每个切片矩阵 $x^d\in\R^{M\times N}$ 为一个输入特征映射, $1\le d\le D$.</p>
+</li>
+<li><p><b>输出特征映射组</b>: $\mathscr{Y}\in \R^{M’\times N’\times P}$ 为三维张量, 其中每个切片矩阵 $y^p\in R^{M\times N}$ 为一个输出特征映射, $1\le d\le P$.</p>
+</li>
+<li><p><b>卷积核</b>: $\mathscr{W}\in\R^{U\times V\times P\times D}$ 为四维张量, 其中每个切片矩阵 $W^{p, d}\in\R^{U\times V}$ 为一个二维卷积核, $1\le p\le P, 1\le d\le D$.</p>
+</li>
+</ol>
+<center><img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/20220903091651.png" alt="20220903091651" width="100%"/> </center>
+<center><p> 卷积层的三维结构表示 </p></center>
+
+<p>为了计算输出特征映射 $Y^p$, 用卷积核 $W^{p, 1}, W^{p, 2},\cdots, W^{p, D}$ 分别对输入特征映射 $X^1, X^2,\cdots, X^D$ 进行卷积, 然后将卷积结果相加, 并加上一个标量偏置 $b^p$ 得到卷积层的净输入 $Z^p$, 再经过非线性激活函数后得到输出特征映射 $Y^p$.</p>
+<p>$$<br>\begin{aligned}<br>Z^p &amp; = W^p\otimes X + b^p  = \sum\limits_{d=1}^D W^{p, d}\otimes X^d + b^p \<br>Y^p &amp;= f(Z^p)<br>\end{aligned}<br>$$</p>
+<p>其中 $W^p\in\R^{U\times V\times D}$ 为三维卷积核, $f(\cdot)$ 为非线性激活函数,  一般用 ReLU 函数.</p>
+<p>如果希望卷积层输出 $P$ 个特征映射, 可以将上述计算过程重复 $P$ 次,  得到 $P$ 个输出特征映射 $Y^1, Y^2, \cdots, Y^P$.</p>
+<center><img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/20220903092648.png" alt="20220903092648" width="100%"/> </center>
+<center><p> 卷积层中从输入特征映射组 X 到输出特征映射 Y<sup>P</sup> 的计算示例 </p></center>
+
+<p>在输入为 $\mathscr{X}\in\R^{M\times N\times D}$, 输出为 $\mathscr{Y}\in\R^{M’\times N’\times P}$ 的卷积层中, 每一个输出特征映射都需要 $D$ 个卷积核以及一个偏置. 假设每个卷积核的大小为 $U\times V$, 那么共需要 $P\times D\times (U\times V)+P$ 个参数.</p>
+<h3 id="汇聚层"><a href="#汇聚层" class="headerlink" title="汇聚层"></a>汇聚层</h3><p>汇聚层也叫<b>子采样层</b>, 其作用是进行特征选择, 降低特征数量, 从而减少参数数量.</p>
+<p>假设汇聚层的输入特征映射组为 $\mathscr{X}\in\R^{M\times N\times D}$, 对于其中每一个特征映射 $X^d\in\R^{M\times N}, 1\le d\le D$. 将其划分为很多区域 $R^d_{m, n}, 1\le m\le M’, 1\le n\le N’$, 这些区域可以重叠, 也可以不重叠. <b>汇聚</b>是指对每个区域进行<b>下采样</b>得到一个值, 作为这个区域的概括.</p>
+<p>常用的汇聚函数有两种</p>
+<ol>
+<li><b>最大汇聚</b>: 对于一个区域 $R^d_{m, n}$ 选择这个区域内所有神经元的最大活性值作为这个区域的表示:<br>$$<br>y^d_{m, n} = \max\limits_{i\in R^{d_{m, n}}} x_i<br>$$</li>
+</ol>
+<p>其中 $x_i$ 为区域 $R^d_k$ 内每个神经元的活性值</p>
+<ol start="2">
+<li><b>平均汇聚</b>: 一般是取区域内所有神经元活性值的平均值, 即<br>$$<br>y^d_{m, n} = \cfrac{1}{|R^d_{m, nj}|}\sum\limits_{i\in\R^d_{m, n}} x_i<br>$$</li>
+</ol>
+<p>对于每一个输入映射 $X^d$ 的 $M’\times N’$ 个区域进行子采样, 得到汇聚层的输出特征映射 $Y^d={ y^d_{m, n} }, 1\le m\le M’, 1\le n\le N’$.</p>
+<center>
+    <img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/2022-09-03_21-55-13.gu1DnMUPz.png" width="600px"/>
+    <p><b>汇聚层中最大汇聚过程示例</b></p>
+</center>
+
+<h3 id="卷积网络的整体结构"><a href="#卷积网络的整体结构" class="headerlink" title="卷积网络的整体结构"></a>卷积网络的整体结构</h3><p>一个典型的卷积网络是由卷积层、汇聚层、全连接层交叉堆叠而成. 一个<b>卷积块</b>为连续 $M$ 个卷积层与 $b$ 个汇聚层. 一个卷积网络中可以堆叠 $N$ 个连续的卷积块, 然后后面接着 $K$ 个全连接层.</p>
+<center>
+    <img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/2022-09-04_15-03-13.o7kTao337.png" width="600p"/>
+    <p><b>常用的卷积网络整体结构</b></p>
+</center>
+
+<h3 id="参数学习"><a href="#参数学习" class="headerlink" title="参数学习"></a>参数学习</h3><p>在卷积神经网络中, 参数为卷积核中的<b>权重</b>与<b>偏置</b>.</p>
+<p>不失一般性，对第 $l$ 层为卷积层，第 $l-1$ 层的输入特征映射为 $\mathscr{X}^{(l-1)}\in \R^{M\times N\times D}$, 通过卷积计算得到第 $l$ 层的特征映射净输入$\mathscr{Z}^{(l)}\in\R^{M’\times N’\times P}$. 第 $l$ 层的第 $p(1\le p\le P)$ 个特征映射净输入</p>
+<center>
+    <img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/2022-09-04_15-11-46.4erJ0Qb3P.png" width="500px"/>
+</center>
+
+<hr>
+<h2 id="循环神经网络"><a href="#循环神经网络" class="headerlink" title="循环神经网络"></a>循环神经网络</h2><p>前馈神经网络中, 每次输入都是独立的, 即网络的输出只依赖于当前的输入. 但是在现实中, 网络的输出不仅和当前时刻的输入相关, 也和过去一段时间的输出相关.</p>
+<p>循环神经网络 (Recurrent Neural Network, RNN) 是一类具有短期记忆能力的神经网络．<br>在循环神经网络中, 神经元不但可以接受其他神经元的信息, 也可以接受自身的信息, 形成具有环路的网络结构.</p>
+<h3 id="给网络增加记忆能力"><a href="#给网络增加记忆能力" class="headerlink" title="给网络增加记忆能力"></a>给网络增加记忆能力</h3><h4 id="延时神经网络"><a href="#延时神经网络" class="headerlink" title="延时神经网络"></a>延时神经网络</h4><p>建立一个额外的延时单元, 用来存储网络的输入、输出、隐状态等历史信息.<br>比较有代表性的模型是<b>延时神经网络</b>.</p>
+<p>延时神经网络是在前馈网络中的<b>非输出层</b>都添加一个<b>延时器</b>, 记录神经元的最近几次活动值. 在第 $t$ 个时刻, 第 $l$ 层神经元的<b>活性值</b>依赖于第 $l-1$ 层神经元的最近 $K$ 个时刻的活性值, 即</p>
+<p>$$<br>h_t^{(l)} = f\left( h_t^{(l-1)}m h^{(l-1)}<em>{t-1},\cdots, h^{(l-1)}</em>{他-} \right)<br>$$</p>
+<p>其中 $h_t^{(l)} \in \R^{M_l}$ 表示第 $l$ 层神经元在时刻 $t$ 的活性值, $M_t$ 为第 $l$ 层神经元的数量.</p>
+<p>通过延时器, 前馈神经网络就具有了短期记忆的能力.</p>
+<h4 id="有外部输入的非线性自回归模型"><a href="#有外部输入的非线性自回归模型" class="headerlink" title="有外部输入的非线性自回归模型"></a>有外部输入的非线性自回归模型</h4><h4 id="循环神经网络-1"><a href="#循环神经网络-1" class="headerlink" title="循环神经网络"></a>循环神经网络</h4><hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><div id="paginator"></div></div><div id="post-footer"><div id="pages"><div id="footer-link" style="right: calc(50% - 1px);order: 1;border-right: 1px solid #fe2;padding-left: unset;max-width: calc(50% - 4px);"><a href="/2022/09/11/28-gobject-learning/">← Next GObject Notes</a></div><div id="footer-link" style="left: 50%;order: 0;border-left: 1px solid #fe2;padding-right: unset;max-width: calc(50% - 5px);"><a href="/2022/08/13/26-gtk-learning/">GTK 学习笔记 Prev →</a></div></div></div></div><div id="bottom-btn"><a id="to-index" href="#toc-div" title="index">≡</a><a id="to-top" onClick="scrolls.scrolltop();" title="to top" style="opacity: 0; display: none;">∧</a></div></article><aside><div id="aside-top"><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a target="_blank" rel="noopener" href="https://github.com/Corona09">Corona</a></h1><div id="description"></div></div><div id="aside-block"><div id="toc-div"><h1>INDEX</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">深度学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6"><span class="toc-number">1.1.</span> <span class="toc-text">数学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">线性代数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8C%83%E6%95%B0"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">范数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3-1"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">奇异值分解^1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Moore-Penrose-%E4%BC%AA%E9%80%86"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">Moore-Penrose 伪逆</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%B9%E8%BF%90%E7%AE%97"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">迹运算</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E7%8E%87%E8%AE%BA"><span class="toc-number">1.1.2.</span> <span class="toc-text">概率论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8B%AC%E7%AB%8B%E4%B8%8E%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">独立与条件独立</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">常用概率分布</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Bernoulli-%E5%88%86%E5%B8%83-0-1%E5%88%86%E5%B8%83"><span class="toc-number">1.1.2.3.1.</span> <span class="toc-text">Bernoulli 分布 (0-1分布)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E9%A1%B9%E5%88%86%E5%B8%83"><span class="toc-number">1.1.2.3.2.</span> <span class="toc-text">多项分布</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AB%98%E6%96%AF%E5%88%86%E5%B8%83"><span class="toc-number">1.1.2.3.3.</span> <span class="toc-text">高斯分布</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83"><span class="toc-number">1.1.2.3.4.</span> <span class="toc-text">指数分布</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Laplace-%E5%88%86%E5%B8%83"><span class="toc-number">1.1.2.3.5.</span> <span class="toc-text">Laplace 分布</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF"><span class="toc-number">1.1.3.</span> <span class="toc-text">卷积</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80"><span class="toc-number">1.2.</span> <span class="toc-text">机器学习基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">1.2.1.</span> <span class="toc-text">一致性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K-%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="toc-number">1.2.2.</span> <span class="toc-text">K 折交叉验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.3.</span> <span class="toc-text">前馈神经网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.4.</span> <span class="toc-text">卷积神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">卷积</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">卷积的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%92%E7%9B%B8%E5%85%B3"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">互相关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A5%E9%95%BF%E4%B8%8E%E9%9B%B6%E5%A1%AB%E5%85%85"><span class="toc-number">1.4.1.3.</span> <span class="toc-text">步长与零填充</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF%E7%9A%84%E6%95%B0%E5%AD%A6%E6%80%A7%E8%B4%A8"><span class="toc-number">1.4.1.4.</span> <span class="toc-text">卷积的数学性质</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%80%A7"><span class="toc-number">1.4.1.4.1.</span> <span class="toc-text">交换性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%BC%E6%95%B0"><span class="toc-number">1.4.1.4.2.</span> <span class="toc-text">导数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E5%8D%B7%E7%A7%AF%E4%BB%A3%E6%9B%BF%E5%85%A8%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.4.2.</span> <span class="toc-text">用卷积代替全连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF%E5%B1%82"><span class="toc-number">1.4.3.</span> <span class="toc-text">卷积层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%87%E8%81%9A%E5%B1%82"><span class="toc-number">1.4.4.</span> <span class="toc-text">汇聚层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C%E7%9A%84%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.5.</span> <span class="toc-text">卷积网络的整体结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.4.6.</span> <span class="toc-text">参数学习</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.5.</span> <span class="toc-text">循环神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%99%E7%BD%91%E7%BB%9C%E5%A2%9E%E5%8A%A0%E8%AE%B0%E5%BF%86%E8%83%BD%E5%8A%9B"><span class="toc-number">1.5.1.</span> <span class="toc-text">给网络增加记忆能力</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">延时神经网络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%89%E5%A4%96%E9%83%A8%E8%BE%93%E5%85%A5%E7%9A%84%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%87%AA%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">有外部输入的非线性自回归模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-1"><span class="toc-number">1.5.1.3.</span> <span class="toc-text">循环神经网络</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.6.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></div></div></div><footer><nobr>published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><div id="cursor-container"><div id="cursor-outer"></div><div id="cursor-effect"></div></div><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();mermaid.init(undefined, ('.mermaid'));}</script><script src="//unpkg.com/@highlightjs/cdn-assets@11.4.0/highlight.min.js"></script><script src="/js/arknights.js"></script><script>window.addEventListener("load",()=>{reset()})</script></body></html>

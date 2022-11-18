@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Linux文件的S和T权限 | CoronaのBlog</title><script>var config = {"root":"/","path":""}</script><script src="//unpkg.com/mermaid@8.13.5/dist/mermaid.min.js"></script><script>mermaid.initialize({
+ startOnLoad: true
+ , theme: 'dark'
+});</script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.4.0/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.2"></head><body style="background-image:url(https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg);"><main><header class="closed"><nav><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><ol class="navContent"><li class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></li><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav><div class="search-popup"><div id="search-result"></div></div></header><article><div id="post-bg"><div id="post-title"><h1>Linux文件的S和T权限</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2022-02-08T16:29:00.000Z" id="date"> 2022-02-09</time></div></span><br><span>Last Update: <div class="control"><time datetime="2022-11-18T14:58:58.325Z" id="updated"> 2022-11-18</time></div></span><br><span>Word Count: <div class="control">437</div></span><br><span>Read Time: <div class="control">1 min</div></span></div></div><hr><div id="post-content"><img src="http://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/st.jpg"  />
+
+<p>上图中, S_IRWXU S_IRWXG S_IRWXO 代表常见的三段权限: 拥有者, 同组用户, 其他用户的权限, 而S_ISUID S_ISGID S_ISVTX 代表的是S权限 与 T权限.</p>
+<h1 id="S权限"><a href="#S权限" class="headerlink" title="S权限"></a>S权限</h1><p>S权限包括 S_ISUID 和 S_ISGID 两个常量在内, 叫做强制位权限.</p>
+<p>其中, S_ISUID 只能应用于二进制可执行文件.</p>
+<p>S_ISGID  可应用于二进制可执行文件和目录.</p>
+<p>注意shell脚本只是有执行权限的文本文件, 而非二进制可执行文件.</p>
+<p>当 S_ISUID S_ISGID 用在二进制文件时</p>
+<ul>
+<li>如果 S_ISUID 为真，则把此进程的有效用户ID设置为此文件拥有者的用户ID.</li>
+<li>如果 S_ISGID 为真，则把此进程的有效用户组ID设置为此文件的组ID.</li>
+</ul>
+<p>由于进程有用户/组ID影响文件访问权限, 于是就相当于临时拥有文件所有者的身份. 典型的文件是passwd. 如果一般用户执行该文件, 则在执行过程中, 该文件可以获得 root 权限, 从而可以更改用户的密码.</p>
+<p>当 S_ISGID 用在目录时：</p>
+<ul>
+<li>当前用户切换至该目录后，用户进程的有效用户组ID(effective group)将会设置为该目录的用户组. 若用户在此目录下具备w权限，则用户进程所创建的新文件的用户组ID与该目录用户组ID相同.</li>
+</ul>
+<p>这两个常量的值是:</p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>十六进制</th>
+<th>十进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S_ISUID</td>
+<td>4000</td>
+<td>2048</td>
+</tr>
+<tr>
+<td>S_ISGID</td>
+<td>2000</td>
+<td>1024</td>
+</tr>
+</tbody></table>
+<ul>
+<li>设置S_ISUID 将相应的权限位之前的那一位设置为4, 如: chmod 4755 examplefile</li>
+<li>设置 S_ISGID 将相应的权限位之前的那一位设置为2, 如: chmod 2755 examplefile</li>
+<li>两者都设置, 如法炮制, 改成6即可.</li>
+</ul>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div id="footer-link" style="right: calc(50% - 1px);order: 1;border-right: 1px solid #fe2;padding-left: unset;max-width: calc(50% - 4px);"><a href="/2022/02/09/03-vim-latex/">← Next 使用NeoVim进行Latex写作</a></div><div id="footer-link" style="left: 50%;order: 0;border-left: 1px solid #fe2;padding-right: unset;max-width: calc(50% - 5px);"><a href="/2022/02/09/05-simulated-annealing/">退火算法学习笔记 Prev →</a></div></div></div></div><div id="bottom-btn"><a id="to-index" href="#toc-div" title="index">≡</a><a id="to-top" onClick="scrolls.scrolltop();" title="to top" style="opacity: 0; display: none;">∧</a></div></article><aside><div id="aside-top"><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a target="_blank" rel="noopener" href="https://github.com/Corona09">Corona</a></h1><div id="description"></div></div><div id="aside-block"><div id="toc-div"><h1>INDEX</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#S%E6%9D%83%E9%99%90"><span class="toc-number">1.</span> <span class="toc-text">S权限</span></a></li></ol></div></div></div><footer><nobr>published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><div id="cursor-container"><div id="cursor-outer"></div><div id="cursor-effect"></div></div><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();mermaid.init(undefined, ('.mermaid'));}</script><script src="//unpkg.com/@highlightjs/cdn-assets@11.4.0/highlight.min.js"></script><script src="/js/arknights.js"></script><script>window.addEventListener("load",()=>{reset()})</script></body></html>

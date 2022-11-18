@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>openSUSE | CoronaのBlog</title><script>var config = {"root":"/","path":""}</script><script src="//unpkg.com/mermaid@8.13.5/dist/mermaid.min.js"></script><script>mermaid.initialize({
+ startOnLoad: true
+ , theme: 'dark'
+});</script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.4.0/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.2"></head><body style="background-image:url(https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg);"><main><header class="closed"><nav><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><ol class="navContent"><li class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></li><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav><div class="search-popup"><div id="search-result"></div></div></header><article><div id="post-bg"><div id="post-title"><h1>openSUSE</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2022-05-17T03:29:00.000Z" id="date"> 2022-05-17</time></div></span><br><span>Last Update: <div class="control"><time datetime="2022-11-18T14:58:58.335Z" id="updated"> 2022-11-18</time></div></span><br><span>Word Count: <div class="control">3.6k</div></span><br><span>Read Time: <div class="control">14 min</div></span></div></div><hr><div id="post-content"><p>最近, 有点想转向 openSUSE 了, 究其原因, 大概是因为毕竟 arch 是一个没有有实体组织支持的发行版, 实际上稳定性确实是堪忧. 这不仅是系统的稳定性, 还有社区的稳定性.</p>
+<p><s>当然可能最主要的原因还是闲的</s></p>
+<h1 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h1><p>从去年 10 月开始使用 arch, 到现在也有半年多了, 经历了那么长时间, arch 也越来越顺手.<br>如果要从 arch 到 openSUSE 的话, 需要在 openSUSE 上实现的有 : </p>
+<ol>
+<li><code>git</code> 这个必不可少啦</li>
+<li><code>nvim</code> 必须把 neovim 现在的配置迁移到 openSUSE 上</li>
+<li><code>latex</code> 现在写作已经离不开 latex 了, 要把自定义模板及与 vim 结合的配置迁移到 openSUSE 上.<ul>
+<li>zathura 预览/查看 pdf</li>
+</ul>
+</li>
+<li><code>hexo</code> 撰写博客必备</li>
+<li><code>python</code> 这个不用说了, 不过 SUSE 自带 python, 虽然是 3.8</li>
+<li><code>java</code> 需要安装 Oracle JDK 8 和 Oracle JDK 11, 顺便把 openjdk 卸载掉, 这个会比较麻烦</li>
+<li><code>croc</code> 用来传输文件</li>
+<li><code>aria2</code> 用来下载文件</li>
+<li>RSS 阅读器</li>
+<li><code>wine</code> : qq, office</li>
+<li><code>wps office</code> 如果 wine 无法安装</li>
+<li>文件压缩/解压缩软件</li>
+<li>因为 openSUSE 不提供音视频解码器, 因此需要额外安装</li>
+<li><code>clash</code> 不必多说</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/patjak/facetimehd/wiki/Installation#get-started-on-opensuse">Macbook 的摄像头驱动</a></li>
+<li>nerd fonts</li>
+<li>腾讯会议 (x)</li>
+<li>idea/eclipse : java 开发环境 (x)</li>
+<li>快捷键设置</li>
+<li>亮度控制</li>
+<li>蓝牙 - 连接鼠标</li>
+<li>网易云音乐客户端 - yesplaymusic (好像已经有人打包了?) (x)</li>
+<li>Google Chrome 浏览器</li>
+</ol>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装之前记得把分区删掉</p>
+<h1 id="更换镜像源及添加软件源"><a href="#更换镜像源及添加软件源" class="headerlink" title="更换镜像源及添加软件源"></a>更换镜像源及添加软件源</h1><p><s>是谁说的官方源一点都不慢的</s></p>
+<p>按照<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/opensuse/">清华镜像站上的指导</a>, 禁用官方源然后添加清华源 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 禁用官方源</span><br>sudo zypper mr -da<br><span class="hljs-comment"># 添加清华镜像源</span><br>sudo zypper ar -cfg <span class="hljs-string">&#x27;https://mirrors.tuna.tsinghua.edu.cn/opensuse/tumbleweed/repo/oss/&#x27;</span> tuna-oss<br>sudo zypper ar -cfg <span class="hljs-string">&#x27;https://mirrors.tuna.tsinghua.edu.cn/opensuse/tumbleweed/repo/non-oss/&#x27;</span> tuna-non-oss<br></code></pre></td></tr></table></figure>
+
+<p>Tumbleweed 安装后默认会启用 oss, non-oss, update, 3 个官方软件源, 其中 oss 及 non-oss 源用于发布 Tumbleweed 的每日构建快照, 快照中已包含系统所需的全部软件包及更新. update 源仅用于推送临时安全补丁, 如当日快照已发布但仍有临时安全补丁时, 会首先推送至 update 源, 并在次日合入下一版快照. 由于 update 源存在较强的时效性, 上游镜像并未同步 update 源, TUNA 亦无法提供该源的镜像. 禁用 update 源并不会使系统缺失任何功能或安全更新, 仅会导致极少数更新晚些推送, 如有需求可以重新启用官方 update 源 (摘抄自清华镜像站).</p>
+<p>删除安装硬件所带来的源, 同时添加清华 packman 镜像源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper ar -cfg <span class="hljs-string">&#x27;https://mirrors.tuna.tsinghua.edu.cn/packman/suse/openSUSE_Tumbleweed/&#x27;</span> tuna-packman<br></code></pre></td></tr></table></figure>
+
+<h1 id="无线网络"><a href="#无线网络" class="headerlink" title="无线网络"></a>无线网络</h1><p>由于使用的是 Macbook, 因此需要安装 Broadcom 的驱动 :<br>添加 packman 源后在 yast 中添加 <code>broadcom-wl</code>.</p>
+<h1 id="一些必要软件"><a href="#一些必要软件" class="headerlink" title="一些必要软件"></a>一些必要软件</h1><ul>
+<li>git</li>
+<li>clash</li>
+<li>neovim<br>  对于 SunnyVim 的配置, 在 arch 下需要将 vimsnippets.py 放置于 <code>/usr/lib/python3.x</code> 下, 但是在 openSUSE 下需要将其放置在 <code>/usr/lib/python3.x/site-packages/</code> 下才能生效.</li>
+<li>nodejs-default</li>
+<li>yarn</li>
+<li>conky</li>
+<li>fzfj</li>
+<li>bat</li>
+<li>ncdu</li>
+<li>typescript</li>
+</ul>
+<h1 id="Chrome-安装"><a href="#Chrome-安装" class="headerlink" title="Chrome 安装"></a>Chrome 安装</h1><ol>
+<li><p>引入 google Chrome 软件源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper ar http://dl.google.com/linux/chrome/rpm/stable/x86_64 Google-Chrome<br></code></pre></td></tr></table></figure></li>
+<li><p>下载密钥文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://dl.google.com/linux/linux_signing_key.pub<br>sudo rpm --import linux_signing_key.pub<br></code></pre></td></tr></table></figure></li>
+<li><p>打开 yast 安装 Chrome<br>或者运行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper install google-chrome-stable<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>安装 Chrome 后, 运行 <code>google-chrome-stable --proxy-server=&quot;127.0.0.1:7890&quot;</code></p>
+<h1 id="安装解码器"><a href="#安装解码器" class="headerlink" title="安装解码器"></a>安装解码器</h1><p>在安装了 packman 源后, 执行如下命令 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper install --from tuna-packman ffmpeg gstreamer-plugins-&#123;good,bad,ugly,libav&#125; libavcodec-full<br></code></pre></td></tr></table></figure>
+
+<p>另外, 如果要使用 vlc, 还需要安装 <code>vlc-codecs</code>, 因为如果采用的 packman 是镜像源的话, 会有部分依赖需要从原 packman 等处下载, 因此推荐使用 YaST 安装.</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="安装-fuse-exFat"><a href="#安装-fuse-exFat" class="headerlink" title="安装 fuse-exFat"></a>安装 fuse-exFat</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper install fuse-exfat<br></code></pre></td></tr></table></figure>
+
+<p>=======<br>另外, 还需要安装 <code>xf86-video-indel</code> 或者 <code>xf86-video-amdgpu</code></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>fde6bd8e0106fcd7290218413389890ae9d54450</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="更换-fcitx5-更换皮肤及添加词库-amp-字体"><a href="#更换-fcitx5-更换皮肤及添加词库-amp-字体" class="headerlink" title="更换 fcitx5 更换皮肤及添加词库 &amp; 字体"></a>更换 fcitx5 更换皮肤及添加词库 &amp; 字体</h1><p>SUSE 官方源中没有 fcitx5 皮肤, 痕迹<br>在 github 上找到了一款比较不错的皮肤</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/thep0y/fcitx5-themes --depth=1<br></code></pre></td></tr></table></figure>
+<p>克隆到本地后, 将项目中的以下文件夹拷贝到 <code>$HOME/.local/share/fcitx5/themes/</code> 下 (如果没有这个文件夹则自行创建)</p>
+<ul>
+<li>spring</li>
+<li>summer</li>
+<li>autumn</li>
+<li>winter</li>
+<li>green</li>
+<li>transparent-green</li>
+</ul>
+<p>如果要添加 <a target="_blank" rel="noopener" href="https://github.com/felixonmars/fcitx5-pinyin-zhwiki">zhwiki</a>词库, 则从其 github 仓库中下载最新版本的 zhwiki.dict 文件, 并将其复制到 <code>~/.local/share/fcitx5/pinyin/dictionaries/</code></p>
+<p>对于字体, 首先是中华书局宋体, 然后是<a target="_blank" rel="noopener" href="https://github.com/lxgw/LxgwWenKai/">霞鹜文楷</a>, 思源宋体. 思源黑体倒是自带.<br>霞鹜文楷还在开发中, SUSE 也不像 Arch 那样有 AUR 很方便更新, 因此先不考虑安装.</p>
+<h1 id="卸载不必要软件"><a href="#卸载不必要软件" class="headerlink" title="卸载不必要软件"></a>卸载不必要软件</h1><p>采用 kde 版本的 Tumbleweed, 有很多东西是不需要的.<br><s>比如麻将</s>.</p>
+<h1 id="latex-安装"><a href="#latex-安装" class="headerlink" title="latex 安装"></a>latex 安装</h1><p>和 arch 下相比, 在 openSUSE 下使用 latex 的配置过程要麻烦些</p>
+<ol>
+<li><p>安装 <code>texlive</code> 包</p>
+</li>
+<li><p>安装以下包</p>
+<ul>
+<li>texlive-ctex</li>
+<li>texlive-anyfontsize</li>
+<li>texlive-gbt7714</li>
+<li>texlive-silence</li>
+<li>texlive-lstaddons</li>
+<li>texlive-warpcol</li>
+</ul>
+</li>
+<li><p>创建文件夹 <code>/usr/local/share/texmf/tex/local/</code>, 将自定义 cls 文件放入其中 (比如现在用的 <code>coronanote.cls</code> 和 <code>coronareport.cls</code>)</p>
+</li>
+<li><p>创建文件 <code>/usr/local/share/texmf/ls-R</code>, 其内容为 :</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs plain">% ls-R -- filename database for kpathsea; do not change this line.<br><br>./:<br>.:<br>ls-R<br>tex<br><br>./tex:<br>local<br><br>./tex/local:<br>coronanote.cls<br>coronareport.cls<br></code></pre></td></tr></table></figure>
+<p> 创建之后, 修改其权限与所属用户组 :</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> 664 ./ls-R<br><span class="hljs-built_in">chown</span> root:mktex ./ls-R<br></code></pre></td></tr></table></figure>
+<p> 然后执行以下命令</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">texhash<br></code></pre></td></tr></table></figure>
+<p> 之后, 我的 Makefile 文件就能运行了</p>
+</li>
+</ol>
+<p>不得不说, 确实比 Arch 下麻烦了不少, 好多包需要自己装.</p>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><ul>
+<li>Java IDE : JetBrains Intellij Idea</li>
+<li>数据库管理 : Antares<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/antares-sql/antares">Repo</a></li>
+<li><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/antares-sql/antares/master/assets/appx/Square44x44Logo.targetsize-256_altform-unplated.png">icon</a></li>
+</ul>
+</li>
+<li>数据库模式设计 : Mysql Workbench <code>sudo zypper install mysql-workbench</code></li>
+</ul>
+<h1 id="安装一些无法通过官方源获取的软件"><a href="#安装一些无法通过官方源获取的软件" class="headerlink" title="安装一些无法通过官方源获取的软件"></a>安装一些无法通过官方源获取的软件</h1><h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><p>hexo : 博客<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo npm install -g hexo<br>sudo npm install -g hexo-generator-index<br></code></pre></td></tr></table></figure></p>
+<h2 id="croc"><a href="#croc" class="headerlink" title="croc"></a>croc</h2><p>下载 <a target="_blank" rel="noopener" href="https://github.com/schollz/croc/releases/latest">croc binary release 版本</a><br>解压即用, 但是有点小问题, 传送大文件时不太好使.</p>
+<h2 id="icalingua"><a href="#icalingua" class="headerlink" title="icalingua"></a>icalingua</h2><p>可以在<a target="_blank" rel="noopener" href="https://github.com/Icalingua-plus-plus/Icalingua-plus-plus/releases">icalingua++ release</a> 页面找到 appimage 版本.</p>
+<h2 id="YesPlayMusic"><a href="#YesPlayMusic" class="headerlink" title="YesPlayMusic"></a>YesPlayMusic</h2><p>网易云第三方客户端, 也可以在其项目 <a target="_blank" rel="noopener" href="https://github.com/qier222/YesPlayMusic/releases">release 页面</a>下载 appimage 版本</p>
+<h2 id="lazygit"><a href="#lazygit" class="headerlink" title="lazygit"></a>lazygit</h2><p>已经彻底懒了 :P<br>下载 <a target="_blank" rel="noopener" href="https://github.com/jesseduffield/lazygit/releases">lazygit binary release 版本</a><br>可以直接使用</p>
+<h2 id="ueberzug"><a href="#ueberzug" class="headerlink" title="ueberzug"></a>ueberzug</h2><p>不是吧这也没有 ? </p>
+<p><b>更换 pip 源</b> : <code>pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</code></p>
+<p>可以使用 pip 安装 : <code>sudo pip install ueberzug</code>, 使用 sudo 可为全局安装<br>在此之前需要先安装 gcc, 并且还需要安装缺少 C 语言库 :</p>
+<ul>
+<li>python38-devel</li>
+<li>libX11-devel</li>
+<li>libXext-devel<br>这些库就不删了, 或许以后还能有用.</li>
+</ul>
+<h2 id="clitrans"><a href="#clitrans" class="headerlink" title="clitrans"></a>clitrans</h2><p>这个或许也可以不装, 不过也不是很大.<br>下载 <a target="_blank" rel="noopener" href="https://github.com/wfxr/clitrans/releases">clitrans</a>, 解压到相应路径.</p>
+<h2 id="cloc"><a href="#cloc" class="headerlink" title="cloc"></a>cloc</h2><p>统计代码行数, 用的不多, 不过也不大.<br><a target="_blank" rel="noopener" href="https://github.com/AlDanial/cloc/releases">cloc release</a></p>
+<hr>
+<h1 id="Java-设置"><a href="#Java-设置" class="headerlink" title="Java 设置"></a>Java 设置</h1><p>openSUSE 默认安装的是 openJdk, 这很正常. 但是因为没有了 AUR, 需要手动安装 java 了.</p>
+<p>首先从 Oracle 官网上下载 jdk8 和 jdk11 的 .tar.gz 压缩包, 将其解压到 <code>$HOME/Software/java/</code> 下. 我现在下载的是 <code>jdk-11.0.15.1</code> 和 <code>jdk1.8.0_333</code>, 那么路径就是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">$HOME/Software/java/jdk1.8.0_333<br>$HOME/Software/java/jdk-11.0.15.1<br></code></pre></td></tr></table></figure>
+
+<p>设置一下 <code>.bashrc</code> 和 <code>.config/fish/config.fish</code>, 根据<code>$HOME/.java_status</code> 中的值自动选择 jdk8 和 jdk11.</p>
+<h1 id="显卡驱动-intel"><a href="#显卡驱动-intel" class="headerlink" title="显卡驱动 (intel)"></a>显卡驱动 (intel)</h1><p>原来一直没装显卡驱动, 以至于全靠 CPU 在顶, 光开个 KDE 桌面就 CPU 占用 10%…</p>
+<p>参照 archwiki (<s>ArchWiki yyds</s>), 安装 <code>xf86-video-intel</code> 包:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper install xf86-video-intel<br></code></pre></td></tr></table></figure>
+
+<h1 id="FacetimeHD-驱动"><a href="#FacetimeHD-驱动" class="headerlink" title="FacetimeHD 驱动"></a>FacetimeHD 驱动</h1><p>安装 <code>facetimehd-kmp-default</code> 和 <code>facetimehd-firmware</code> 这两个包.</p>
+<p>安装成功后, 可以检查是否有加载 <code>facetimehd</code> 模块 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">lsmod | grep facetimehd<br></code></pre></td></tr></table></figure>
+<p>如果没有加载, 则手动加载该模块</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo modprobe facetimehd<br></code></pre></td></tr></table></figure>
+
+<p>可以安装 <code>kamoso</code> 来测试能否正常拍照.</p>
+<p><s>反转了</s></p>
+<p>通过 <code>modprobe</code> 命令加载的内核模块只是暂时生效, 因此需要配置开机自动加载内核模块.</p>
+<p>按照 <a target="_blank" rel="noopener" href="https://zh.opensuse.org/SDB:%E8%AE%A9%E7%B3%BB%E7%BB%9F%E5%9C%A8%E5%90%AF%E5%8A%A8%E6%97%B6%E5%8A%A0%E8%BD%BD%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97">SUSE Wiki</a> 上的指导, 尝试了修改 <code>/etc/sysconfig/kernel</code> (事实上我这里没有这个文件, 因此是自己创建的), 没用. YaST 的 sysconfig/System/Kernel 里也没有 <code> MODULES_LOADED_ON_BOOT</code> 这一项.</p>
+<p>最后在 <code>/etc/modules-load.d/</code> 文件夹下创建了 <code>modules.conf</code> 文件, 并将 <code>facetimehd</code> 写入, 重启后可以自动加载 <code>facetimehd</code> 模块了.</p>
+<p><code>modules.conf</code> 中只需要写 <code>facetimehd</code> 就行, 其他的一概不需要</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">facetimehd<br></code></pre></td></tr></table></figure>
+
+<p><s>另外, 按照 SUSE Wiki 上的说法, <code>modules.conf</code> 这个文件叫什么名其实并不重要</s>.</p>
+<h1 id="使用-st-终端"><a href="#使用-st-终端" class="headerlink" title="使用 st 终端"></a>使用 st 终端</h1><p>不得不说, st 仍然是我目前能找到的各方面特性最好的终端.<br>但是在 SUSE 上编译 st 需要安装很多包…</p>
+<ul>
+<li>fontconfig-devel</li>
+<li>harfbuzz-devel</li>
+<li>libXft-devel</li>
+<li>posix_cc 这个不是必需的, 只是懒得改 Makefile 了</li>
+<li>ncurses-devel</li>
+</ul>
+<h1 id="激活-Linux"><a href="#激活-Linux" class="headerlink" title="激活 Linux"></a>激活 Linux</h1><p><s>怎么会有人那么无聊啊</s><br><a target="_blank" rel="noopener" href="https://github.com/MrGlockenspiel/activate-linux">项目主页</a></p>
+<p>需要安装的依赖 :</p>
+<ul>
+<li>cairo-devel (同时带来一堆依赖包)</li>
+<li>libXinerama-devel</li>
+<li>libXfixes-devel</li>
+</ul>
+<h1 id="KDE-设置"><a href="#KDE-设置" class="headerlink" title="KDE 设置"></a>KDE 设置</h1><p>KDE 有一些东西还是需要设置的<br><s>有一说一 KDE 的设置有点拉, 让人摸不着头脑</s></p>
+<h2 id="鼠标单击打开文件"><a href="#鼠标单击打开文件" class="headerlink" title="鼠标单击打开文件"></a>鼠标单击打开文件</h2><p>设置 -&gt; 工作区行为 -&gt; 常规行为 -&gt; 点击文件或文件夹时</p>
+<h2 id="设置锁屏"><a href="#设置锁屏" class="headerlink" title="设置锁屏"></a>设置锁屏</h2><p>设置 -&gt; 工作区行为 -&gt; 常规行为 -&gt; 锁屏</p>
+<h2 id="禁用自动登录"><a href="#禁用自动登录" class="headerlink" title="禁用自动登录"></a>禁用自动登录</h2><p>KDE 默认会开启用户自动登录, 也就是说用户不需要输入密码就能登录, 那我还设置密码干啥…</p>
+<p>设置 -&gt; 开机与关机 -&gt; 登录屏幕 (SDDM) -&gt; 行为设置</p>
+<h2 id="KDE-Wallet"><a href="#KDE-Wallet" class="headerlink" title="KDE Wallet"></a>KDE Wallet</h2><p><s>KDE Wallet 纯纯逆天</s><br>我就是想连接个 wifi, 真 tm 麻烦.</p>
+<ol>
+<li>使用传统方式, 不要使用 GPG ;</li>
+<li>钱包名 kdewallet</li>
+<li>禁用自动登录, 如果想用自动登录, 那就把钱包密码设为空.</li>
+</ol>
+<p>纯纯逆天, 原来搞了那么久, 不能自动链接 wifi 的原因是设置了自动登录…</p>
+<p>据我猜想, 将 kdewallet 的密码设置与用户登录密码相同, 就是为了在登录时输入密码后同步解锁 kdewallet, 但是自动登录没有输入密码的过程, 所以就必须再手输一遍密码…</p>
+<p><s>纯纯逆天</s></p>
+<h2 id="托盘图标模糊"><a href="#托盘图标模糊" class="headerlink" title="托盘图标模糊"></a>托盘图标模糊</h2><p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/KDE_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E7%B3%BB%E7%BB%9F%E6%89%98%E7%9B%98%E4%B8%8A%E7%9A%84%E5%9B%BE%E6%A0%87%E6%A8%A1%E7%B3%8A">ArchWiki YYDS!</a></p>
+<p>KDE 下一些应用 (如 icalingua, yesplaymusic) 的托盘图标非常模糊,<br>根据 arch wiki 上的描述, 需要安装 <code>libappindicator</code>, 在 SUSE 上, 执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper install libappindicator3-1<br></code></pre></td></tr></table></figure>
+<p>安装完后启动应用就可以看到清晰的托盘图标了.</p>
+<h2 id="Dolphin-添加右键菜单"><a href="#Dolphin-添加右键菜单" class="headerlink" title="Dolphin 添加右键菜单"></a>Dolphin 添加右键菜单</h2><p>如果要在 Dolphin 中添加自定义右键菜单, 需要添加自定义 desktop 文件.</p>
+<p>例如, 要添加右键点击种子文件使用 aria2 下载, 则编辑以下文件 :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs desktop">[Desktop Entry]<br>Type=Service<br>ServiceTypes=KonqPopupMenu/Plugin<br>MimeType=application/x-bittorrent<br>Actions=download<br>Icon=download<br><br>[Desktop Action download]<br>Name=使用 aria2 下载<br>Exec=aria2 &quot;%f&quot;<br>Icon=download<br></code></pre></td></tr></table></figure>
+
+<p>其中 <code>MimeType</code> 可以使用 <code>file --mime-type 文件名</code> 查看.<br>至于 <code>%f</code>, <code>%F</code>, 可以在 <a target="_blank" rel="noopener" href="https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#exec-variables">Freedesktop Desktop Entry Specification-&gt; The Exec key</a> 中查询.</p>
+<p>这里记载一下 :</p>
+<table>
+<thead>
+<tr>
+<th>字符串</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%f</code></td>
+<td>单个文件及其路径</td>
+</tr>
+<tr>
+<td><code>%F</code></td>
+<td>所有选定的文件</td>
+</tr>
+<tr>
+<td><code>%u</code></td>
+<td>单个 url, 本地文件会被转换成 <code>file:urls</code> 或文件路径</td>
+</tr>
+<tr>
+<td><code>%U</code></td>
+<td>多个 url</td>
+</tr>
+</tbody></table>
+<p>将以上文件命名为 <code>download.desktop</code>, 放到 <code>~/.local/share/kservices5/ServiceMenus/</code> 中.</p>
+<p>具体的指导可以看<a target="_blank" rel="noopener" href="https://develop.kde.org/docs/extend/dolphin/service-menus/">这里</a></p>
+<h2 id="Akregator-设置阅读背景"><a href="#Akregator-设置阅读背景" class="headerlink" title="Akregator 设置阅读背景"></a>Akregator 设置阅读背景</h2><p>当切换到暗色模式时, Akregator 的阅读背景还是亮色的…</p>
+<p>到 <a target="_blank" rel="noopener" href="https://gist.github.com/intika/34bd6d30149c707ba0407a36ef8dceb7">intika/combinedview</a>, 下载 zip 文件, 将其解压到 <code>$HOME/.local/share/akregator/grantleetheme/5.2/</code> 下, 然后重启 Akregator 可以得到深色的阅读背景.</p>
+<h2 id="Ark-添加-7z-rar-支持"><a href="#Ark-添加-7z-rar-支持" class="headerlink" title="Ark 添加 7z, rar 支持"></a>Ark 添加 7z, rar 支持</h2><p>Ark 是 KDE 的默认解压工具, 但初始并不支持 7z 与 rar 格式.<br>为了支持 7z 类型, 需要安装 <code>p7zip</code> 与 <code>p7zip-full</code> 包.<br>为了支持 rar 类型, 需要安装 <code>rar</code>,<code>unrar</code> 与 <code>unar</code> 包.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo zypper install p7zip p7zip-full rar unrar unar<br></code></pre></td></tr></table></figure>
+
+<h1 id="任务切换器"><a href="#任务切换器" class="headerlink" title="任务切换器"></a>任务切换器</h1><p>这个东西比较乱, 直接在 快捷键-&gt; KWin 中设置是不行的.</p>
+<p>正确设置方法:<br>设置 -&gt; 窗口管理器 -&gt; 任务切换器 -&gt; 主窗口 -&gt; 可视化 -&gt; 选择缩略图并在下方配置快捷键 alt+tab/alt+shift+tab</p>
+<h1 id="Libre-Office-设置"><a href="#Libre-Office-设置" class="headerlink" title="Libre Office 设置"></a>Libre Office 设置</h1><p>Libre Office 现在已经很好用了, 所以我也就没有下载安装 WPS<br><s>除了没有微软的字体外</s></p>
+<p>我还是习惯用暗色模式, 但是 LO 跟随系统调整到暗色模式后, 编辑区域仍然是白色的, 很刺眼.</p>
+<p>解决方法是 : 工具 (Tools) -&gt; 选项 (Options) -&gt; LibreOffice -&gt; 应用程序颜色 -&gt; 配色方案, 选择 LibreOffice Dark</p>
+<p>另外还有, 默认使用的图标在暗色模式下很难分辨, 因此需要更换图标:<br>工具 (Tools) -&gt; 选项 (Options) -&gt; LibreOffice -&gt; 视图 (Views) -&gt; 图标样式, 推荐 Breeze (dark) (不是 Breeze (SVG+dark)).</p>
+<h1 id="快照"><a href="#快照" class="headerlink" title="快照"></a>快照</h1><h2 id="禁用已启动快照"><a href="#禁用已启动快照" class="headerlink" title="禁用已启动快照"></a>禁用已启动快照</h2><p>快照是个好东西, 可以用来恢复数据, 尤其是 Tumbleweed 滚动更新, 容易出现错误.<br>但是, 我的电脑存储空间十分滴珍贵 (总共 128 G), 使用快照就有点奢侈了, 因此还是禁用了吧.<br>在安装好 openSUSE Tumbleweed 后, 如果使用了默认设置且根分区 &gt; 16 G, 那么就会自动启用快照. <s>怪不得存储空间在不断变少</s></p>
+<p>Snapper 自动创建的快照有三种 :</p>
+<ol>
+<li>时间线快照</li>
+<li>安装快照</li>
+<li>管理快照</li>
+</ol>
+<p>按如下操作禁用这三种快照 :</p>
+<ol>
+<li><p>禁用时间线快照<br> <code>snapper -c 配置文件名 set-config &quot;TIMELINE_CREATE=no&quot;</code><br> 同样, 如果要启用时间线快照, 则执行 <code>snapper -c 配置文件名 set-config &quot;TIMELINE_CREATE=yes&quot;</code><br> 默认启动的快照配置名为 <code>root</code>.</p>
+</li>
+<li><p>禁用安装快照<br> 安装快照是在安装软件前后创建的快照, 可用于撤销软件包更改.</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 禁用安装快照</span><br>zypper remove snapper-zypp-plugin<br><span class="hljs-comment"># 启用安装快照</span><br>zypper install snapper-zypp-plugin<br></code></pre></td></tr></table></figure>
+<p> <b>2022-05-27 19:07</b>: 放弃了, 还是启用安装快照吧, 也不要太在意空间…</p>
+</li>
+<li><p>禁用管理快照<br> 在 <code>/etc/sysconfig/yast2</code> 中将 <code>USE_SNAPPER</code> 设置为 <code>no</code><br> 同理, 如果要启用管理快照, 则将其设置为 <code>yes</code></p>
+</li>
+</ol>
+<h2 id="删除已有快照"><a href="#删除已有快照" class="headerlink" title="删除已有快照"></a>删除已有快照</h2><p>以 root 用户执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">snapper list<br></code></pre></td></tr></table></figure>
+<p>列出所有 <code>root</code> 配置下的快照</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">snapper delete 快照编号 <span class="hljs-comment"># 如 snapper delete 15</span><br>snapper delete 快照编号范围 <span class="hljs-comment"># 如 snapper delete 15-17</span><br></code></pre></td></tr></table></figure>
+
+<p>可以添加 <code>-s</code> 参数以在删除快照后立即释放可用空间.</p>
+<h2 id="手动创建快照"><a href="#手动创建快照" class="headerlink" title="手动创建快照"></a>手动创建快照</h2><p>以 root 用户运行 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用 root 配置创建快照</span><br>snapper create -t single -d <span class="hljs-string">&quot;手动备份-1&quot;</span> <span class="hljs-comment"># -t 是快照类型, 默认就是 single</span><br></code></pre></td></tr></table></figure>
+
+<p>更多见 <a target="_blank" rel="noopener" href="https://zh.opensuse.org/SDB:Snapper_Tutorial">Snapper Tutorial</a></p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div id="footer-link" style="right: calc(50% - 1px);order: 1;border-right: 1px solid #fe2;padding-left: unset;max-width: calc(50% - 4px);"><a href="/2022/05/27/20-opensuse-problem-fix/">← Next SUSE 使用过程中遇到的问题</a></div><div id="footer-link" style="left: 50%;order: 0;border-left: 1px solid #fe2;padding-right: unset;max-width: calc(50% - 5px);"><a href="/2022/03/27/18-xfce-config/">XFCE 配置 Prev →</a></div></div></div></div><div id="bottom-btn"><a id="to-index" href="#toc-div" title="index">≡</a><a id="to-top" onClick="scrolls.scrolltop();" title="to top" style="opacity: 0; display: none;">∧</a></div></article><aside><div id="aside-top"><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a target="_blank" rel="noopener" href="https://github.com/Corona09">Corona</a></h1><div id="description"></div></div><div id="aside-block"><div id="toc-div"><h1>INDEX</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E4%B9%8B%E5%89%8D"><span class="toc-number">1.</span> <span class="toc-text">开始之前</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2%E9%95%9C%E5%83%8F%E6%BA%90%E5%8F%8A%E6%B7%BB%E5%8A%A0%E8%BD%AF%E4%BB%B6%E6%BA%90"><span class="toc-number">3.</span> <span class="toc-text">更换镜像源及添加软件源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C"><span class="toc-number">4.</span> <span class="toc-text">无线网络</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%BF%85%E8%A6%81%E8%BD%AF%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">一些必要软件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Chrome-%E5%AE%89%E8%A3%85"><span class="toc-number">6.</span> <span class="toc-text">Chrome 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">安装解码器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-fuse-exFat"><span class="toc-number">8.</span> <span class="toc-text">安装 fuse-exFat</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E6%8D%A2-fcitx5-%E6%9B%B4%E6%8D%A2%E7%9A%AE%E8%82%A4%E5%8F%8A%E6%B7%BB%E5%8A%A0%E8%AF%8D%E5%BA%93-amp-%E5%AD%97%E4%BD%93"><span class="toc-number">9.</span> <span class="toc-text">更换 fcitx5 更换皮肤及添加词库 &amp; 字体</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%B8%E8%BD%BD%E4%B8%8D%E5%BF%85%E8%A6%81%E8%BD%AF%E4%BB%B6"><span class="toc-number">10.</span> <span class="toc-text">卸载不必要软件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#latex-%E5%AE%89%E8%A3%85"><span class="toc-number">11.</span> <span class="toc-text">latex 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">12.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%80%E4%BA%9B%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87%E5%AE%98%E6%96%B9%E6%BA%90%E8%8E%B7%E5%8F%96%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="toc-number">13.</span> <span class="toc-text">安装一些无法通过官方源获取的软件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo"><span class="toc-number">13.1.</span> <span class="toc-text">Hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#croc"><span class="toc-number">13.2.</span> <span class="toc-text">croc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#icalingua"><span class="toc-number">13.3.</span> <span class="toc-text">icalingua</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#YesPlayMusic"><span class="toc-number">13.4.</span> <span class="toc-text">YesPlayMusic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lazygit"><span class="toc-number">13.5.</span> <span class="toc-text">lazygit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ueberzug"><span class="toc-number">13.6.</span> <span class="toc-text">ueberzug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clitrans"><span class="toc-number">13.7.</span> <span class="toc-text">clitrans</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cloc"><span class="toc-number">13.8.</span> <span class="toc-text">cloc</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-%E8%AE%BE%E7%BD%AE"><span class="toc-number">14.</span> <span class="toc-text">Java 设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8-intel"><span class="toc-number">15.</span> <span class="toc-text">显卡驱动 (intel)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FacetimeHD-%E9%A9%B1%E5%8A%A8"><span class="toc-number">16.</span> <span class="toc-text">FacetimeHD 驱动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-st-%E7%BB%88%E7%AB%AF"><span class="toc-number">17.</span> <span class="toc-text">使用 st 终端</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BF%80%E6%B4%BB-Linux"><span class="toc-number">18.</span> <span class="toc-text">激活 Linux</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#KDE-%E8%AE%BE%E7%BD%AE"><span class="toc-number">19.</span> <span class="toc-text">KDE 设置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E5%8D%95%E5%87%BB%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="toc-number">19.1.</span> <span class="toc-text">鼠标单击打开文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E9%94%81%E5%B1%8F"><span class="toc-number">19.2.</span> <span class="toc-text">设置锁屏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E8%87%AA%E5%8A%A8%E7%99%BB%E5%BD%95"><span class="toc-number">19.3.</span> <span class="toc-text">禁用自动登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KDE-Wallet"><span class="toc-number">19.4.</span> <span class="toc-text">KDE Wallet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%98%E7%9B%98%E5%9B%BE%E6%A0%87%E6%A8%A1%E7%B3%8A"><span class="toc-number">19.5.</span> <span class="toc-text">托盘图标模糊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dolphin-%E6%B7%BB%E5%8A%A0%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95"><span class="toc-number">19.6.</span> <span class="toc-text">Dolphin 添加右键菜单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Akregator-%E8%AE%BE%E7%BD%AE%E9%98%85%E8%AF%BB%E8%83%8C%E6%99%AF"><span class="toc-number">19.7.</span> <span class="toc-text">Akregator 设置阅读背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ark-%E6%B7%BB%E5%8A%A0-7z-rar-%E6%94%AF%E6%8C%81"><span class="toc-number">19.8.</span> <span class="toc-text">Ark 添加 7z, rar 支持</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E5%88%87%E6%8D%A2%E5%99%A8"><span class="toc-number">20.</span> <span class="toc-text">任务切换器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Libre-Office-%E8%AE%BE%E7%BD%AE"><span class="toc-number">21.</span> <span class="toc-text">Libre Office 设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E7%85%A7"><span class="toc-number">22.</span> <span class="toc-text">快照</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E5%B7%B2%E5%90%AF%E5%8A%A8%E5%BF%AB%E7%85%A7"><span class="toc-number">22.1.</span> <span class="toc-text">禁用已启动快照</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%B7%B2%E6%9C%89%E5%BF%AB%E7%85%A7"><span class="toc-number">22.2.</span> <span class="toc-text">删除已有快照</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%88%9B%E5%BB%BA%E5%BF%AB%E7%85%A7"><span class="toc-number">22.3.</span> <span class="toc-text">手动创建快照</span></a></li></ol></li></ol></div></div></div><footer><nobr>published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><div id="cursor-container"><div id="cursor-outer"></div><div id="cursor-effect"></div></div><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();mermaid.init(undefined, ('.mermaid'));}</script><script src="//unpkg.com/@highlightjs/cdn-assets@11.4.0/highlight.min.js"></script><script src="/js/arknights.js"></script><script>window.addEventListener("load",()=>{reset()})</script></body></html>

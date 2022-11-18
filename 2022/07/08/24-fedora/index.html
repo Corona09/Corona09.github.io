@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>fedora | CoronaのBlog</title><script>var config = {"root":"/","path":""}</script><script src="//unpkg.com/mermaid@8.13.5/dist/mermaid.min.js"></script><script>mermaid.initialize({
+ startOnLoad: true
+ , theme: 'dark'
+});</script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.4.0/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.2"></head><body style="background-image:url(https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg);"><main><header class="closed"><nav><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><ol class="navContent"><li class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></li><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav><div class="search-popup"><div id="search-result"></div></div></header><article><div id="post-bg"><div id="post-title"><h1>fedora</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2022-07-08T03:03:00.000Z" id="date"> 2022-07-08</time></div></span><br><span>Last Update: <div class="control"><time datetime="2022-11-18T14:58:58.339Z" id="updated"> 2022-11-18</time></div></span><br><span>Word Count: <div class="control">2k</div></span><br><span>Read Time: <div class="control">9 min</div></span></div></div><hr><div id="post-content"><h1 id="fedora-配置"><a href="#fedora-配置" class="headerlink" title="fedora 配置"></a>fedora 配置</h1><h2 id="安装解码器"><a href="#安装解码器" class="headerlink" title="安装解码器"></a>安装解码器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install gstreamer1-plugins-&#123;bad-\*,good-\*,base&#125; gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel<br></code></pre></td></tr></table></figure>
+
+<h2 id="禁用-packagekit"><a href="#禁用-packagekit" class="headerlink" title="禁用 packagekit"></a>禁用 packagekit</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">systemctl stop packagekit.service<br>systemctl <span class="hljs-built_in">disable</span> packagekit.service<br>systemctl mask packagekit.service<br></code></pre></td></tr></table></figure>
+
+<p>禁用掉 packagekit 后, gnome 软件商店就没法用了, 但是问题不大, 真的需要的时候再临时开一下, 等之后换了更高配置的机器就可以不用在意 packagekit 了</p>
+<h2 id="配置摄像头"><a href="#配置摄像头" class="headerlink" title="配置摄像头"></a>配置摄像头</h2><p>Fedora 的新版本有 <a target="_blank" rel="noopener" href="https://copr.fedorainfracloud.org/coprs/frgt10/facetimehd-dkms/">DKMS RPMs</a></p>
+<p>首先安装固件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 依赖项: curl, xzcat, cpio</span><br>git <span class="hljs-built_in">clone</span> https://github.com/patjak/facetimehd-firmware.git<br></code></pre></td></tr></table></figure>
+
+<p>进入安装目录, 执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">make<br>sudo make install<br></code></pre></td></tr></table></figure>
+
+<p>如果一切正常, 则应该有如下输入:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ make<br>Dowloading the driver, please <span class="hljs-built_in">wait</span>...<br><br>Found matching <span class="hljs-built_in">hash</span> from OS X, El Capitan 10.11.5<br>==&gt; Extracting firmware...<br> --&gt; Decompressing the firmware using gzip...<br> --&gt; Deleting temporary files...<br> --&gt; Extracted firmware version 1.43.0<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># make install</span><br>Copying firmware into <span class="hljs-string">&#x27;/usr/lib/firmware/facetimehd&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>添加 copr 库:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf copr <span class="hljs-built_in">enable</span> frgt10/facetimehd-dkms<br></code></pre></td></tr></table></figure>
+
+<p>安装 facetimehd</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install facetimehd<br></code></pre></td></tr></table></figure>
+
+<h2 id="安装-dbeaver"><a href="#安装-dbeaver" class="headerlink" title="安装 dbeaver"></a>安装 dbeaver</h2><p>不要试图更换镜像源，sjtu的国内源已经很久没更新了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">flatpak install flathub io.dbeaver.DBeaverCommunity<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="配置-gnome"><a href="#配置-gnome" class="headerlink" title="配置 gnome"></a>配置 gnome</h2><h3 id="安装主题"><a href="#安装主题" class="headerlink" title="安装主题"></a>安装主题</h3><h5 id="GTK-主题"><a href="#GTK-主题" class="headerlink" title="GTK 主题"></a>GTK 主题</h5><p>拷贝 WhiteSur 主题仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/vinceliuice/WhiteSur-gtk-theme.git --depth=1<br><span class="hljs-comment"># 进入安装目录</span><br><span class="hljs-comment"># -c Dark: 安装暗色主题</span><br><span class="hljs-comment"># -t all : 安装所有颜色</span><br><span class="hljs-comment"># -i : 活动图标, 有 fedora, gnome, void, debian, arch 等选项</span><br><span class="hljs-comment"># -N mojave: Nautilus 样式</span><br>./install.sh \<br>	-c Dark \<br>	-t all \<br>	-i gnome \<br>	-N mojave<br>sudo ./tweaks.sh -g -i fedora -c Dark -b /path/to/background.png<br></code></pre></td></tr></table></figure>
+
+<p>其中 <code>/path/to/background.png</code>是电脑启动后的背景图片.</p>
+<h5 id="图标"><a href="#图标" class="headerlink" title="图标"></a>图标</h5><p>WhiteSur 的图标:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/vinceliuice/WhiteSur-icon-theme.git --depth=1<br><span class="hljs-comment"># 进入目标路径</span><br>./install -t all<br></code></pre></td></tr></table></figure>
+
+
+
+<p>Cutefish 的图标:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/cutefishos/icons.git --depth=1<br><span class="hljs-comment"># 进入目标路径</span><br><span class="hljs-built_in">mkdir</span> build<br>cmake ..<br>make<br>sudo make install<br></code></pre></td></tr></table></figure>
+
+<h5 id="光标"><a href="#光标" class="headerlink" title="光标"></a>光标</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/vinceliuice/WhiteSur-cursors.git --depht=1<br>./install.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装-gnome-扩展"><a href="#安装-gnome-扩展" class="headerlink" title="安装 gnome 扩展"></a>安装 gnome 扩展</h3><h4 id="通过-dnf-安装"><a href="#通过-dnf-安装" class="headerlink" title="通过 dnf 安装"></a>通过 dnf 安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install gnome-extensions-app <span class="hljs-comment"># 管理扩展</span><br>sudo dnf install chrome-gnome-shell <span class="hljs-comment"># 与 chrome 浏览器的集成</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="手动下载并安装"><a href="#手动下载并安装" class="headerlink" title="手动下载并安装"></a>手动下载并安装</h4><p>到<a target="_blank" rel="noopener" href="https://extensions.gnome.org/">gnome extensions</a> 网站搜索扩展并下载压缩包，将其解压缩，找到<code>metadata.json</code>文件，复制其<code>uuid</code>一项作为解压后的文件夹名。</p>
+<p>将文件夹移动到<code>~/.local/share/gnome-shell/extensions/</code>下，注销会话并重新登录，即可在扩展管理中看到新安装的扩展。</p>
+<p>正在使用的插件 :</p>
+<ol>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/615/appindicator-support/">AppIndicator and KStatusNotifierItem Support</a> 系统托盘</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/3956/gnome-fuzzy-app-search/">Gnome Fuzzy App Search</a> 搜索栏模糊查找</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/517/caffeine/">caffeine</a> 某些应用下禁用自动睡眠</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/3843/just-perfection/">just-perfection</a> 大量自定义选项</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/307/dash-to-dock/">Dash to Dock</a> 终于开始支持 Gnome42 了 (甚至已经支持 Gnome43 了)</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1702/overview-navigation/">overview navigate</a> 在 overview 界面按空格后可快速定位窗口</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/wengxt/gnome-shell-extension-kimpanel">Inupt Method Panel</a> 与 fcitx5 配套的输入法 UI, 统一 fcitx5 显示为 libadwaita 风格，且不安装这个扩展<a target="_blank" rel="noopener" href="https://github.com/fcitx/fcitx5/issues/573">在某些地方无法显示候选词</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/570/todotxt/">Todo.txt</a> 一直以来想做的, 原来已经有了啊. 可以在 panel 上显示任务. 与 cli 版的 <a target="_blank" rel="noopener" href="https://github.com/todotxt/todo.txt-cli">todo.txt</a> 类似 (但是该插件不需要安装 todo.txt 也能运行)</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1625/soft-brightness/">Soft brightness</a> wayland 下调整台式机显示器的亮度, 终于找到了!</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/4850/command-menu/">Command Menu</a> 快速运行命令，必备</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/3193/blur-my-shell/">blur-my-shell</a> 模糊特效，需要禁用对 dash 的 blur，并选择 <code>overview -&gt; overview components style</code> 为 <code>do not style</code></p>
+<ul>
+<li>2022-09-05 12:37 : 现在走默认风格了捏</li>
+<li>2022-10-07 20:57 : <del>又换回来了</del></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/19/user-themes/">User Themes</a> 自定义主题</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/3088/extension-list/">Exension List</a> 在 panel 中快速设置扩展</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/771/proxy-switcher/">Proxy Switcher</a> 在右上角菜单显示代理切换选项</p>
+<ul>
+<li>2022-09-05 12:33 : chrome + edge, 不需要这个了</li>
+<li>2022-10-07 20:59 : <del>还是挺需要的</del></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/3488/big-avatar/">big-avatar</a> 右上角菜单展示头像<del>用以提升逼格</del>(如果不支持 Gnome 43 就不用了罢)</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1401/bluetooth-quick-connect/">bluetooth quick connect</a> 快速连接蓝牙，很实用</p>
+</li>
+</ol>
+<p>目前已经不用了的插件 :</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/4112/customize-ibus/">customize-ibus</a> 自定义 ibus 样式</p>
+<ul>
+<li>2022-09-05 12:33 : 专用 fcitx5 了捏</li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/4405/replace-activities-text/">replace-activities-text</a> 相比于 <a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/4451/logo-menu/">logo-menu</a> 我其实只是想要替换一下 <code>活动</code> 按钮的标志与文字.</p>
+<ul>
+<li>2022-08-14 16:17 : 效果不佳, <del>不如原生活动按钮</del>.</li>
+<li>2022-09-05 12:32 : 不需要了, 已经换成默认主题了</li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/5236/material-you-color-theming/">Material You Color Theming</a> 根据背景图片生成系统主题色, 需要安装<a target="_blank" rel="noopener" href="https://github.com/lassekongo83/adw-gtk3">adw-gtk3</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/1653/tweaks-in-system-menu/">tweaks-in-system-menu</a> 在右上角菜单中显示<b>优化</b>与<b>扩展</b>, 快速打开优化与扩展. 如果不是经常换主题与插件的话, 其实用处不大.</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/3985/shu-zhi/">shuzhi</a> 生成<del>颇有意境的</del>壁纸</p>
+<ul>
+<li>2022-09-05 12:35 : 花里胡哨, 用处不大</li>
+</ul>
+</li>
+</ul>
+<center>
+    <img src="https://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/2022-09-04_16-50-10.c9dkP6IAh.png" width="400px"/>
+    <p><b>shuzhi 生成的壁纸</b></p>
+</center>
+
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/3759/cleaner-overview/">cleaner-overview</a> 进入 overview 后可整齐排列窗口</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/4652/adjust-display-brightness/">Adjust Display Brightness </a> 本来寄希望于它能调整亮度…但是效果不太行</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://extensions.gnome.org/extension/4703/dock-from-dash/">Dock from Dash</a> 将 dash 添加到 dock，不如 dash-to-dock</p>
+</li>
+</ul>
+<h3 id="导出-导入配置"><a href="#导出-导入配置" class="headerlink" title="导出/导入配置"></a>导出/导入配置</h3><p>使用 <code>dconf</code> 导出/导入配置实现快速恢复配置</p>
+<h4 id="导出配置"><a href="#导出配置" class="headerlink" title="导出配置"></a>导出配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dconf dump / &gt; dconf.settings<br></code></pre></td></tr></table></figure>
+
+<h4 id="导入配置"><a href="#导入配置" class="headerlink" title="导入配置"></a>导入配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> dconf.settings | dconf load -f /<br></code></pre></td></tr></table></figure>
+
+<p>对于背景与头像, 需要提前将其放置到指定位置.</p>
+<img src="http://corona-oss.oss-cn-qingdao.aliyuncs.com/notes-img/image-20220802095437134.png" alt="配置之后的大概样子" style="zoom:50%;" />
+
+<center>配置之后的大概样子</center>
+
+<h2 id="乱七八糟的软件"><a href="#乱七八糟的软件" class="headerlink" title="乱七八糟的软件"></a>乱七八糟的软件</h2><h3 id="flatpak"><a href="#flatpak" class="headerlink" title="flatpak"></a>flatpak</h3><p>卸载 flatpak 应用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">flatpak uninstall --delete-data com.visualstudio.code<br></code></pre></td></tr></table></figure>
+
+<p>移除不用的依赖:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">flatpak uninstall --unused<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>vscode</strong>: <code>flatpak install flathub com.visualstudio.code</code></p>
+<p>flatpak 版的 vscode 的配置文件位置在 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">~/.var/app/com.visualstudio.code/config/Code/User/settings.json<br></code></pre></td></tr></table></figure>
+
+<p>快捷键配置文件在 <code>~/.var/app/com.visualstudio.code/config/Code/User/keybindings.json</code></p>
+<p>2022-08-13 21:41: flatpak 版本的 vscode 有一些问题, 无法正确检测到部分系统目录, 还是用巨硬官方提供的 rpm 仓库吧</p>
+</li>
+<li><p><strong>newsflash</strong>: rss 阅读器<code>flatpak install flathub com.gitlab.newsflash</code></p>
+</li>
+<li><p><strong>fragments</strong>: bt 种子下载程序 <code>flatpak install flathub de.haeckerfelix.Fragments</code></p>
+</li>
+<li><p><strong>flatseal</strong>: 管理 flatpak 程序的权限 <code>flatpak install flathub com.github.tchx84.Flatseal</code></p>
+<blockquote>
+<p>例如, 使用 flatseal 关闭 vscode 后台运行的权限.</p>
+<p>安装 newsflash 后使用 flatseal 允许其访问<strong>所有用户文件</strong>以启用与系统同步的gtk主题.</p>
+</blockquote>
+</li>
+<li><p><strong>腾讯会议</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 进入 bash 环境</span><br><span class="hljs-built_in">export</span> HTTP_PROXY=<span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span><br><span class="hljs-built_in">export</span> HTTPS_PROXY=<span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span><br>flatpak install flathub com.tencent.wemeet<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 添加密钥与仓库</span><br>sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc<br>sudo sh -c <span class="hljs-string">&#x27;echo -e &quot;[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc&quot; &gt; /etc/yum.repos.d/vscode.repo&#x27;</span><br><span class="hljs-comment"># 更新源并安装 vscode</span><br>dnf check-update<br>sudo dnf install code<br></code></pre></td></tr></table></figure>
+
+<h3 id="Intel-GPU-Tools"><a href="#Intel-GPU-Tools" class="headerlink" title="Intel GPU Tools"></a>Intel GPU Tools</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install igt-gpu-tools<br></code></pre></td></tr></table></figure>
+
+<h3 id="xeyes"><a href="#xeyes" class="headerlink" title="xeyes"></a>xeyes</h3><p>一款判断应用是运行在 wayland 还是 xwayland 下的小工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install xeyes<br></code></pre></td></tr></table></figure>
+
+<p>当指针位于 xwayland 应用上时眼睛:eyes:会跟着动</p>
+<h3 id="sushi"><a href="#sushi" class="headerlink" title="sushi"></a>sushi</h3><p>和 MacOS 的 QuickLook 类似, 在 Nautilus 中按空格可以预览文件.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install -y sushi<br></code></pre></td></tr></table></figure>
+
+<h3 id="GBKunzip"><a href="#GBKunzip" class="headerlink" title="GBKunzip"></a>GBKunzip</h3><p>在 linux 下解压一些于 windows 下压缩的文件时，总是会出现各种乱码，依云写的<a target="_blank" rel="noopener" href="https://github.com/lilydjwg/winterpy/blob/master/pyexe/gbkunzip">gbkunzip</a>就是用来解决这个问题的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/Corona09/GBKunzip-by-lilydjwg.git<br></code></pre></td></tr></table></figure>
+
+<p>执行 <code>make install</code> 以安装脚本。</p>
+<h3 id="emacs"><a href="#emacs" class="headerlink" title="emacs"></a>emacs</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装 slime</span><br>sudo dnf install -y sbcl<br>git <span class="hljs-built_in">clone</span> --depth=1 https://github.com/slime/slime.git slime<br><span class="hljs-built_in">cd</span> slime<br>sudo <span class="hljs-built_in">ln</span> -s (<span class="hljs-built_in">pwd</span>) /opt/local/slime<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 编译 emacs</span><br>sudo dnf install -y jansson-devel mpfr-devel libmpc-devel gmp-devel \<br>                    libgccjit-devel autoconf texinfo libX11-devel jansson \<br>                    jansson-devel libXpm libXaw-devel libjpeg-turbo-devel \<br>                    libpng-devel giflib-devel libtiff-devel gnutls-devel \<br>                    ncurses-devel gtk3-devel webkit2gtk3-devel<br>git <span class="hljs-built_in">clone</span> https://github.com/emacs-mirror/emacs.git --depth=1<br><span class="hljs-built_in">cd</span> emacs<br>./autogen.sh<br>./configure --with-dbus --with-gif --with-jpeg --with-png --with-rsvg \<br>            --with-tiff --with-xft --with-xpm --with-gpm=no \<br>            --with-xwidgets --with-x-toolkit=gtk3 --with-cairo --with-modules --with-native-compilation --with-pgtk \<br>            -with-threads --with-included-regex<br>make -j8<br>sudo make install<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install -y google-noto-&#123;sans,serif&#125;-sc-fonts adobe-source-han-&#123;sans,serif&#125;-cn-fonts<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="安装-Latex"><a href="#安装-Latex" class="headerlink" title="安装 Latex"></a>安装 Latex</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf -y install texlive texlive-&#123;ulem, lstaddons, anyfontsize, silence, gbt7714, bibtex, threeparttable, hanging, noto&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="手动安装软件"><a href="#手动安装软件" class="headerlink" title="手动安装软件"></a>手动安装软件</h3><p>有一些软件需要手动安装, 这些软件文件放到 <code>/opt/local</code> 下, 如 <code>lazygit</code>, <code>clitrans</code>, <code>typora</code> 等.    </p>
+<h3 id="Nautilus-配置"><a href="#Nautilus-配置" class="headerlink" title="Nautilus 配置"></a>Nautilus 配置</h3><p>安装 Nautilus 插件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo dnf install -y seahorse-nautilus <span class="hljs-comment"># 加密/解密扩展</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><h3 id="gnome-control-center-无故崩溃"><a href="#gnome-control-center-无故崩溃" class="headerlink" title="gnome-control-center 无故崩溃"></a>gnome-control-center 无故崩溃</h3><p>gnome-control-center 无故崩溃, 无法启动</p>
+<p>报错信息 (<a target="_blank" rel="noopener" href="https://gitlab.gnome.org/GNOME/gnome-control-center/-/issues/1504">类似错误</a>):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">(gnome-control-center:551378): cc-power-profile-row-CRITICAL **: 11:47:22.497: cc_power_profile_row_get_radio_button: assertion <span class="hljs-string">&#x27;CC_IS_POWER_PROFILE_ROW (self)&#x27;</span> failed<br>**<br>power-cc-panel:ERROR:../panels/power/cc-power-panel.c:1122:performance_profile_set_active: assertion failed: (button)<br>Bail out! power-cc-panel:ERROR:../panels/power/cc-power-panel.c:1122:performance_profile_set_active: assertion failed: (button)<br>fish: Job 1, <span class="hljs-string">&#x27;gnome-control-center&#x27;</span> terminated by signal SIGABRT (Abort)<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://ramfree17.net/capsule/2020/07/fix-for-crashing-gnome-control-center/">解决方法</a> :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dconf reset -f /org/gnome/control-center<br></code></pre></td></tr></table></figure>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div id="footer-link" style="right: calc(50% - 1px);order: 1;border-right: 1px solid #fe2;padding-left: unset;max-width: calc(50% - 4px);"><a href="/2022/07/08/22-vue-param/">← Next Vue 跳转页面传参</a></div><div id="footer-link" style="left: 50%;order: 0;border-left: 1px solid #fe2;padding-right: unset;max-width: calc(50% - 5px);"><a href="/2022/07/07/21-mybatis-auto-increment-key/">Mybatis 自动生成主键并获取其值 Prev →</a></div></div></div></div><div id="bottom-btn"><a id="to-index" href="#toc-div" title="index">≡</a><a id="to-top" onClick="scrolls.scrolltop();" title="to top" style="opacity: 0; display: none;">∧</a></div></article><aside><div id="aside-top"><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a target="_blank" rel="noopener" href="https://github.com/Corona09">Corona</a></h1><div id="description"></div></div><div id="aside-block"><div id="toc-div"><h1>INDEX</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#fedora-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">fedora 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%A7%A3%E7%A0%81%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">安装解码器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%81%E7%94%A8-packagekit"><span class="toc-number">1.2.</span> <span class="toc-text">禁用 packagekit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%91%84%E5%83%8F%E5%A4%B4"><span class="toc-number">1.3.</span> <span class="toc-text">配置摄像头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-dbeaver"><span class="toc-number">1.4.</span> <span class="toc-text">安装 dbeaver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-gnome"><span class="toc-number">1.5.</span> <span class="toc-text">配置 gnome</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98"><span class="toc-number">1.5.1.</span> <span class="toc-text">安装主题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#GTK-%E4%B8%BB%E9%A2%98"><span class="toc-number">1.5.1.0.1.</span> <span class="toc-text">GTK 主题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E6%A0%87"><span class="toc-number">1.5.1.0.2.</span> <span class="toc-text">图标</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%89%E6%A0%87"><span class="toc-number">1.5.1.0.3.</span> <span class="toc-text">光标</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-gnome-%E6%89%A9%E5%B1%95"><span class="toc-number">1.5.2.</span> <span class="toc-text">安装 gnome 扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-dnf-%E5%AE%89%E8%A3%85"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">通过 dnf 安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E4%B8%8B%E8%BD%BD%E5%B9%B6%E5%AE%89%E8%A3%85"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">手动下载并安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA-%E5%AF%BC%E5%85%A5%E9%85%8D%E7%BD%AE"><span class="toc-number">1.5.3.</span> <span class="toc-text">导出&#x2F;导入配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E9%85%8D%E7%BD%AE"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">导出配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E9%85%8D%E7%BD%AE"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">导入配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%B1%E4%B8%83%E5%85%AB%E7%B3%9F%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.6.</span> <span class="toc-text">乱七八糟的软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flatpak"><span class="toc-number">1.6.1.</span> <span class="toc-text">flatpak</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vscode"><span class="toc-number">1.6.2.</span> <span class="toc-text">vscode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Intel-GPU-Tools"><span class="toc-number">1.6.3.</span> <span class="toc-text">Intel GPU Tools</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xeyes"><span class="toc-number">1.6.4.</span> <span class="toc-text">xeyes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sushi"><span class="toc-number">1.6.5.</span> <span class="toc-text">sushi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GBKunzip"><span class="toc-number">1.6.6.</span> <span class="toc-text">GBKunzip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emacs"><span class="toc-number">1.6.7.</span> <span class="toc-text">emacs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AD%97%E4%BD%93"><span class="toc-number">1.6.8.</span> <span class="toc-text">安装字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Latex"><span class="toc-number">1.6.9.</span> <span class="toc-text">安装 Latex</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.6.10.</span> <span class="toc-text">手动安装软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nautilus-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.6.11.</span> <span class="toc-text">Nautilus 配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="toc-number">1.7.</span> <span class="toc-text">问题解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gnome-control-center-%E6%97%A0%E6%95%85%E5%B4%A9%E6%BA%83"><span class="toc-number">1.7.1.</span> <span class="toc-text">gnome-control-center 无故崩溃</span></a></li></ol></li></ol></li></ol></div></div></div><footer><nobr>published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><div id="cursor-container"><div id="cursor-outer"></div><div id="cursor-effect"></div></div><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();mermaid.init(undefined, ('.mermaid'));}</script><script src="//unpkg.com/@highlightjs/cdn-assets@11.4.0/highlight.min.js"></script><script src="/js/arknights.js"></script><script>window.addEventListener("load",()=>{reset()})</script></body></html>

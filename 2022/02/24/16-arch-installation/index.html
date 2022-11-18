@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>安装Arch | CoronaのBlog</title><script>var config = {"root":"/","path":""}</script><script src="//unpkg.com/mermaid@8.13.5/dist/mermaid.min.js"></script><script>mermaid.initialize({
+ startOnLoad: true
+ , theme: 'dark'
+});</script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.4.0/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.2"></head><body style="background-image:url(https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg);"><main><header class="closed"><nav><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><ol class="navContent"><li class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></li><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav><div class="search-popup"><div id="search-result"></div></div></header><article><div id="post-bg"><div id="post-title"><h1>安装Arch</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2022-02-24T01:35:00.000Z" id="date"> 2022-02-24</time></div></span><br><span>Last Update: <div class="control"><time datetime="2022-11-18T14:58:58.331Z" id="updated"> 2022-11-18</time></div></span><br><span>Word Count: <div class="control">1.9k</div></span><br><span>Read Time: <div class="control">8 min</div></span></div></div><hr><div id="post-content"><h1 id="台式机安装-Arch"><a href="#台式机安装-Arch" class="headerlink" title="台式机安装 Arch"></a>台式机安装 Arch</h1><p>虽然Manjaro是基于Arch的, 但是越来越觉得Manjaro与Arch的差距还是很大的.</p>
+<p>这次放了一个月寒假, 回来后Manjaro也基本是挂了的状态了, 正好趁此机会将台式机的系统重装下.</p>
+<p>思来想去, 已经用习惯Arch了, 再换其他发行版是不可能的了.</p>
+<p>除了Arch的安装过程之外, 还要记录下安装完Arch后的配置, 方便以后再用.</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="制作启动盘"><a href="#制作启动盘" class="headerlink" title="制作启动盘"></a>制作启动盘</h2><p>在下载完iso镜像文件后, 将其写入准备好的U盘.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">dd</span> bs=4M <span class="hljs-keyword">if</span>=/path/to/archlinux.iso of=/dev/sdx status=progress &amp;&amp; <span class="hljs-built_in">sync</span><br></code></pre></td></tr></table></figure>
+<p>注意是<code>/dev/sdx/</code>, 是不带数字的.</p>
+<p>在写入之前务必确认没有挂载.</p>
+<h2 id="选择字体"><a href="#选择字体" class="headerlink" title="选择字体"></a>选择字体</h2><p>在进Live环境后, 调整字体大小:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">setfont /usr/share/kbd/consolefonts/LatGrkCyr-12x22.psfu.gz<br></code></pre></td></tr></table></figure>
+
+<h2 id="更新系统时间"><a href="#更新系统时间" class="headerlink" title="更新系统时间"></a>更新系统时间</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">timedatectl set-ntp <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="建立硬盘分区"><a href="#建立硬盘分区" class="headerlink" title="建立硬盘分区"></a>建立硬盘分区</h2><h3 id="查看分区"><a href="#查看分区" class="headerlink" title="查看分区"></a>查看分区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">fdisk -l<br></code></pre></td></tr></table></figure>
+
+<h3 id="编辑分区"><a href="#编辑分区" class="headerlink" title="编辑分区"></a>编辑分区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">fdisk /dev/nvme0n1<br><br>&gt; g <span class="hljs-comment"># 清空原有分区</span><br>&gt; n <span class="hljs-comment"># 创建新分区</span><br>&gt; w <span class="hljs-comment"># 保存</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="设置分区格式"><a href="#设置分区格式" class="headerlink" title="设置分区格式"></a>设置分区格式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkfs.fat -F32 /dev/nvme0n1p1 <span class="hljs-comment"># 引导分区</span><br>mkfs.ext4     /dev/nvme0n1p2 <span class="hljs-comment"># 主分区</span><br>mkswap        /dev/nvme0n1p3 <span class="hljs-comment"># Swap分区</span><br>swapon        /dev/nvme0n1p3<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="配置pacman"><a href="#配置pacman" class="headerlink" title="配置pacman"></a>配置pacman</h2><p>pacman的配置文件为<code>/etc/pacman.conf</code><br>编辑文件<code>/etc/pacman.d/mirrorlist</code>, 该文件中越靠前的优先级越大.<br>将中国的镜像地址移动到最上面, 如果没有, 则自行添加上.<br><del>不要相信xjtu源</del></p>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><h3 id="挂载分区"><a href="#挂载分区" class="headerlink" title="挂载分区"></a>挂载分区</h3><p><strong>按照顺序</strong>, 先挂载根分区到<code>/mnt</code>, 再挂载引导分区到<code>/mnt/efi</code>, 然后挂载其他分区.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">mount /dev/nvme0n1p2 /mnt <span class="hljs-comment"># 挂载主分区</span><br><span class="hljs-built_in">mkdir</span> /mnt/boot<br>mount /dev/nvme0n1p1 /mnt/boot <span class="hljs-comment"># 挂载引导分区</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="使用pacstrap安装系统"><a href="#使用pacstrap安装系统" class="headerlink" title="使用pacstrap安装系统."></a>使用pacstrap安装系统.</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacstrap /mnt base linux linux-firmware<br></code></pre></td></tr></table></figure>
+
+<h2 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h2><h3 id="生成fstab"><a href="#生成fstab" class="headerlink" title="生成fstab"></a>生成fstab</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab<br></code></pre></td></tr></table></figure>
+
+<h3 id="进入chroot"><a href="#进入chroot" class="headerlink" title="进入chroot"></a>进入chroot</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">arch-chroot /mnt<br></code></pre></td></tr></table></figure>
+
+<h3 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<br></code></pre></td></tr></table></figure>
+<p>然后运行<code>hwclock</code>以生成<code>/etc/adjtime</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hwclock --systohc<br></code></pre></td></tr></table></figure>
+
+<h3 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h3><p>编辑<code>/etc/locale.gen</code>, 取消掉<code>en_US.UTF-8</code>和<code>UTF-8</code>和其他需要的时区前面的注释, 如<code>zh_CN.UTF-8</code>.</p>
+<p>执行<code>locale-gen</code>以生成<code>locale</code>信息.</p>
+<p>创建<code>/etc/locale.conf</code>, 并设置<code>LANG</code>变量:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs conf">LANG=zh_CN.UTF-8<br></code></pre></td></tr></table></figure>
+<p>当然在编辑文件前需要安装一个编辑器, 比如neovim.</p>
+<h3 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h3><p>创建<code>hostname</code>文件<code>/etc/hostname</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># /etc/hostname</span><br><span class="hljs-built_in">arch</span><br></code></pre></td></tr></table></figure>
+<p>将对应的信息添加到<code>/etc/hosts</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">127.0.0.1 localhost<br>::1       localhost<br>127.0.1.1 arch.localdomain <span class="hljs-built_in">arch</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="修改root密码"><a href="#修改root密码" class="headerlink" title="修改root密码"></a>修改root密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">passwd<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装引导程序"><a href="#安装引导程序" class="headerlink" title="安装引导程序"></a>安装引导程序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S grub efibootmgr amd-ucode os-prober<br><span class="hljs-built_in">mkdir</span> /boot/grub<br>grub-mkconfig &gt; /boot/grub/grub.cfg<br></code></pre></td></tr></table></figure>
+
+<p>查看系统架构:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">uname</span> -m<br></code></pre></td></tr></table></figure>
+<p>安装grub:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">grub-install --target=x86_64-efi --efi-directory=/boot<br></code></pre></td></tr></table></figure>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><p>退出chroot环境, 使用<code>reboot</code>命令重启, 拔出安装介质.</p>
+<hr>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="基本包与必备软件"><a href="#基本包与必备软件" class="headerlink" title="基本包与必备软件"></a>基本包与必备软件</h2><p>基本包 :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S base-devel<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>linux-headers</li>
+<li>git</li>
+<li>终端模拟器 (st, alacritty)</li>
+<li>yay, paru</li>
+<li>aria2</li>
+<li>croc</li>
+<li>zip, gzip, unzip, p7zip, unrar</li>
+<li>google-chrome</li>
+<li>xclip</li>
+<li>ntfs-3g</li>
+<li>ueberzug</li>
+<li>fzf</li>
+<li>trash-cli</li>
+<li>imagemagick</li>
+<li>ctags</li>
+<li>nomacs</li>
+<li>webkit2gtk</li>
+<li>clang: <code>pacman -S clang</code></li>
+<li>php</li>
+</ul>
+<h3 id="python-packages"><a href="#python-packages" class="headerlink" title="python packages"></a>python packages</h3><p>建议使用 pacman 安装</p>
+<ul>
+<li>neovim-remote: <code>sudo pip install neovim-remote</code></li>
+<li>pynvim: <code>sudo pacman -S python-pynvim</code></li>
+<li>jedi: <code>sudo pacman -S python-jedi</code></li>
+<li>pylint <code>sudo pacman -S python-pylint</code></li>
+<li>rope <code> sudo pacman -S python-rope</code> (coc.python 用来重命名变量)</li>
+<li>virtualenv</li>
+<li>numpy</li>
+<li>matplotlib</li>
+</ul>
+<h3 id="npm-packages"><a href="#npm-packages" class="headerlink" title="npm packages"></a>npm packages</h3><ul>
+<li>hexo-cli <code>sudo npm install -g hexo-cli</code></li>
+<li>hexo-generator-index <code>sudo npm install -g hexo-generator-index</code></li>
+<li>typescript <code>sudo pacman -S typescript</code></li>
+</ul>
+<hr>
+<h2 id="创建普通用户"><a href="#创建普通用户" class="headerlink" title="创建普通用户"></a>创建普通用户</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">useradd -m corona<br>usermod -a -G wheel corona<br></code></pre></td></tr></table></figure>
+
+<p>编辑<code>/etc/sudoers</code>, 去掉</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">%wheel ALL=(ALL) ALL<br></code></pre></td></tr></table></figure>
+<p>前面的注释</p>
+<hr>
+<h2 id="安装图形界面"><a href="#安装图形界面" class="headerlink" title="安装图形界面"></a>安装图形界面</h2><h3 id="安装S-Server"><a href="#安装S-Server" class="headerlink" title="安装S-Server"></a>安装S-Server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S xorg-server<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装i3"><a href="#安装i3" class="headerlink" title="安装i3"></a>安装i3</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S i3-gaps<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装lightdm"><a href="#安装lightdm" class="headerlink" title="安装lightdm"></a>安装lightdm</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings<br></code></pre></td></tr></table></figure>
+
+<p>启动lightdm服务:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">systemctl <span class="hljs-built_in">enable</span> lightdm.service<br></code></pre></td></tr></table></figure>
+
+<h3 id="icon"><a href="#icon" class="headerlink" title="icon"></a>icon</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S papirus-icon-theme<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="添加archlinuxcn"><a href="#添加archlinuxcn" class="headerlink" title="添加archlinuxcn"></a>添加archlinuxcn</h2><p>在 /etc/pacman.conf 文件末尾添加以下两行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">[archlinuxcn]<br>Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch<br></code></pre></td></tr></table></figure>
+<p>之后安装<code>archlinuxcn-keyring</code>包导入 GPG key</p>
+<hr>
+<h2 id="交换cap与左ctrl"><a href="#交换cap与左ctrl" class="headerlink" title="交换cap与左ctrl"></a>交换cap与左ctrl</h2><p><a href="https://corona09.github.io/2022/02/09/02-sundries/#5-%E4%BA%A4%E6%8D%A2Caps-Lock%E4%B8%8E%E5%B7%A6Ctrl">Click Here</a></p>
+<hr>
+<h2 id="开机自动启动NumberLock"><a href="#开机自动启动NumberLock" class="headerlink" title="开机自动启动NumberLock"></a>开机自动启动NumberLock</h2><p><a href="https://corona09.github.io/2022/02/09/02-sundries/#7-%E5%BC%80%E6%9C%BA%E5%90%8E%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8NumLock">Click Here</a></p>
+<hr>
+<h2 id="中文设置"><a href="#中文设置" class="headerlink" title="中文设置"></a>中文设置</h2><p>安装fcitx5词库及主题:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S fcitx5-im fcitx5-chinese-addons<br>pacman -S fcitx5-pinyin-moegirl fcitx5-pinyin-zhwiki<br><br></code></pre></td></tr></table></figure>
+<p>在<code>~/.xinitrc</code>及<code>~/.xprofile</code>中添加如下设置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">export LANG=zh_CN.UTF-8<br>export LANGUAGE=zh_CN:en_US<br></code></pre></td></tr></table></figure>
+
+<p>在<code>~/.pam_environment</code>中添加如下内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">GTK_IM_MODULE DEFAULT=fcitx<br>QT_IM_MODULE  DEFAULT=fcitx<br>XMODIFIERS    DEFAULT=\@im=fcitx5<br>INPUT_METHOD  DEFAULT=fcitx<br>SDL_IM_MODULE DEFAULT=fcitx<br>GLFW_IM_MODULE DEFAULT=ibus<br></code></pre></td></tr></table></figure>
+
+<p>安装字体:</p>
+<p>安装FiraCode, SourceCodePro, 中华书局宋体, 思源宋体, 思源黑体, ttf-droid</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S ttf-droid noto-fonts ttf-joypixels adobe-source-han-sans-cn-fonts<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="亮度设置"><a href="#亮度设置" class="headerlink" title="亮度设置"></a>亮度设置</h2><p>亮度调整的脚本已经在my-script仓库中了, 这里需要安装下依赖:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S bc xorg-apps<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="声音设置"><a href="#声音设置" class="headerlink" title="声音设置"></a>声音设置</h2><p>编辑配置文件<code>~/.asoundrc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">defaults.pcm.card   1<br>defaults.pcm.device 0<br>defaults.ctl.card   1<br></code></pre></td></tr></table></figure>
+<p>具体数值需要根据设备确定, 可参见 archwiki alsa 部分.</p>
+<p>在我使用的 Macbook Air 上, 要使用麦克风, 需要安装 <code>pulseaudio</code> 包并且需要打上以下补丁 : </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">--- a/usr/share/pulseaudio/alsa-mixer/paths/analog-input-mic.conf<br>+++ b/usr/share/pulseaudio/alsa-mixer/paths/analog-input-mic.conf<br>@@ -23,6 +23,8 @@<br> <br> [Jack Mic]<br> required-any = any<br>+state.plugged = unknown<br>+state.unplugged = unknown<br> <br> [Jack Mic Phantom]<br> required-any = any<br>@@ -31,6 +33,8 @@<br> <br> [Jack Mic - Input]<br> required-any = any<br>+state.plugged = unknown<br>+state.unplugged = unknown<br> <br> [Element Capture]<br> switch = mute<br></code></pre></td></tr></table></figure>
+
+<p>注意该补丁在 <code>pulseaudio</code> 每次更新后都需要手动打上.</p>
+<p>如果没有打这个补丁, 大部分软件都能正常使用, 但是使用腾讯会议时会没有声音.</p>
+<hr>
+<h2 id="摄像头设置"><a href="#摄像头设置" class="headerlink" title="摄像头设置"></a>摄像头设置</h2><p>参见 <a target="_blank" rel="noopener" href="https://dotcs.me/posts/macbook-webcam-arch">This</a></p>
+<p>因为我用的笔记本是 Macbook, 因此需要安装 AUR 中的 <code>bcwc-pcie-git</code> 包,<br>之后加载内核的 <code>facetimehd</code> 模块:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">yay -S bcwc-pcie-git<br>modprobe facetimehd <span class="hljs-comment"># 这条需要 root 权限</span><br></code></pre></td></tr></table></figure>
+
+<p>使用以下命令检查是否配置成功 : </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">v4l2-ctl --list-devices<br><span class="hljs-comment"># 如果成功, 输出应类似 : </span><br><span class="hljs-comment"># Apple Facetime HD (PCI:0000:02:00.0):</span><br><span class="hljs-comment">#        /dev/video0</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Git设置"><a href="#Git设置" class="headerlink" title="Git设置"></a>Git设置</h2><h3 id="设置ssh"><a href="#设置ssh" class="headerlink" title="设置ssh"></a>设置ssh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> ~/.ssh<br><span class="hljs-built_in">cd</span> ~/.ssh<br>ssh-keygen -t rsa -C <span class="hljs-string">&quot;Corona09@163.com&quot;</span> -f id_gitee<br>ssh-keygen -t rsa -C <span class="hljs-string">&quot;Corona09@163.com&quot;</span> -f id_github<br></code></pre></td></tr></table></figure>
+<p>编辑<code>~/.ssh/config</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">#gitee<br>Host gitee.com<br>HostName gitee.com<br>PreferredAuthentications publickey<br>IdentityFile ~/.ssh/gitee_id_ed25519<br><br>#github<br>Host github.com<br>HostName github.com<br>PreferredAuthentications publickey<br>IdentityFile ~/.ssh/github_id_rsa<br></code></pre></td></tr></table></figure>
+
+<p>打开gitee, github设置公钥, 检查是否成功:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -T git@gitee.com<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="clash设置"><a href="#clash设置" class="headerlink" title="clash设置"></a>clash设置</h2><p>安装google-chrome的插件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">google-chrome-stable --proxy-server=<span class="hljs-string">&quot;http://127.0.0.1:7890&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>打开谷歌应用市场<code>chrome://extensions</code><br>安装<code>ProxySwitchyOmega</code></p>
+<hr>
+<h2 id="挂载磁盘"><a href="#挂载磁盘" class="headerlink" title="挂载磁盘"></a>挂载磁盘</h2><p>因为台式机有额外的机械磁盘, 因此需要挂载硬盘.<br><a href="https://corona09.github.io/2022/02/09/02-sundries/#4-%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98">Click Here</a></p>
+<hr>
+<h2 id="安装Latex"><a href="#安装Latex" class="headerlink" title="安装Latex"></a>安装Latex</h2><p>安装必要的包:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S texlive-most texlive-lang<br>pacman -S poppler-data<br>yay -S zathrua zathura-pdf-poppler<br></code></pre></td></tr></table></figure>
+
+<p>设置必要的<code>latexmkrc</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">$pdflatex=&quot;xelatex %O %S&quot;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="安装虚拟机"><a href="#安装虚拟机" class="headerlink" title="安装虚拟机"></a>安装虚拟机</h2><p><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/VirtualBox_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#%E5%9C%A8_Arch_%E9%87%8C%E5%AE%89%E8%A3%85_VirtualBox">Arch Wiki</a></p>
+<p>安装virtualbox相关包:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yay -S virtualbox virtualbox-host-modules-arch<br></code></pre></td></tr></table></figure>
+<p>在 VirtualBox 所使用的 内核模块 中，只有 vboxdrv 是必须的。该模块必须在虚拟机运行之前加载。</p>
+<p>手动加载模块的命令是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">modprobe vboxdrv<br></code></pre></td></tr></table></figure>
+
+<p>有关高级功能的模块:</p>
+<ul>
+<li><p><code>vboxnetadp</code> &amp; <code>vboxnetflt</code> : 在使用桥接网络和host-only网络时是需要的.<br>  <code>vboxnetadp</code> 模块用于在 VirtualBox 全局配置里为主体机创建虚拟网卡；<br>  <code>vboxnetflt</code> 模块会在使用了该功能的客体机启动时起作用<br>  为了使用桥接网络或”Host-only”网络, 需要安装<code>net-tools</code>包.</p>
+</li>
+<li><p><code>vboxpci</code> 若要让虚拟机使用宿主机的PCI设备, 就需要这个模块.</p>
+</li>
+</ul>
+<p>如果在VirtualBox内核模块运行期间更新了模块所属软件包, 为了使用新版本, 需要手动加载这些模块. 在root权限下运行<code>vboxreload</code>即可重新加载.</p>
+<h3 id="从虚拟机访问宿主机USB设备"><a href="#从虚拟机访问宿主机USB设备" class="headerlink" title="从虚拟机访问宿主机USB设备"></a>从虚拟机访问宿主机USB设备</h3><p>将需要运行VirtualBox的用户名添加到<code>vboxusers</code>用户组.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">usermod -a -G vboxusers corona<br></code></pre></td></tr></table></figure>
+
+<h3 id="安装扩展包"><a href="#安装扩展包" class="headerlink" title="安装扩展包"></a>安装扩展包</h3><p>Oracle Extension Pack 为虚拟机提供了额外功能. 但它并不是以自由软件协议发布的, 仅供个人使用. 这些扩展包可以从 <code>virtualbox-ext-oracle</code>(AUR)安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yay -S virtualbox-ext-oracle<br></code></pre></td></tr></table></figure>
+
+<p>重启计算机, 启动VirtualBox, 安装虚拟机.</p>
+<hr>
+<h2 id="Blog"><a href="#Blog" class="headerlink" title="Blog"></a>Blog</h2><p>使用Hexo构建博客后, 应为涉及到git仓库的问题, 因此在两台机器上编辑博客难免造成冲突. 在我找到好的解决方案之前就先只在一台机器上写博客吧.</p>
+<hr>
+<h2 id="连接-wifi"><a href="#连接-wifi" class="headerlink" title="连接 wifi"></a>连接 wifi</h2><p>为了能够在笔记本上连接 wifi, 需要 <code>broadcom-wl-dkms</code> 包.<br>参见 <a target="_blank" rel="noopener" href="https://wiki.archlinux.org/title/Broadcom_wireless#broadcom-wl">archwiki</a><br>在安装该包之前需要先安装 <code>linux-headers</code>.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pacman -S broadcom-wl-dkms<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p><code>2022-06-05 20:02</code> : 已经转投 openSUSE 了</p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div id="footer-link" style="right: calc(50% - 1px);order: 1;border-right: 1px solid #fe2;padding-left: unset;max-width: calc(50% - 4px);"><a href="/2022/03/17/17-socket-notes/">← Next Socket Programming Notes [未完待续]</a></div><div id="footer-link" style="left: 50%;order: 0;border-left: 1px solid #fe2;padding-right: unset;max-width: calc(50% - 5px);"><a href="/2022/02/16/15-vimscript-note/">VimScript Note [未完待续] Prev →</a></div></div></div></div><div id="bottom-btn"><a id="to-index" href="#toc-div" title="index">≡</a><a id="to-top" onClick="scrolls.scrolltop();" title="to top" style="opacity: 0; display: none;">∧</a></div></article><aside><div id="aside-top"><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a target="_blank" rel="noopener" href="https://github.com/Corona09">Corona</a></h1><div id="description"></div></div><div id="aside-block"><div id="toc-div"><h1>INDEX</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%B0%E5%BC%8F%E6%9C%BA%E5%AE%89%E8%A3%85-Arch"><span class="toc-number">1.</span> <span class="toc-text">台式机安装 Arch</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E5%90%AF%E5%8A%A8%E7%9B%98"><span class="toc-number">2.1.</span> <span class="toc-text">制作启动盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%AD%97%E4%BD%93"><span class="toc-number">2.2.</span> <span class="toc-text">选择字体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4"><span class="toc-number">2.3.</span> <span class="toc-text">更新系统时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E7%A1%AC%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-number">2.4.</span> <span class="toc-text">建立硬盘分区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%88%86%E5%8C%BA"><span class="toc-number">2.4.1.</span> <span class="toc-text">查看分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%88%86%E5%8C%BA"><span class="toc-number">2.4.2.</span> <span class="toc-text">编辑分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%88%86%E5%8C%BA%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.4.3.</span> <span class="toc-text">设置分区格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEpacman"><span class="toc-number">2.5.</span> <span class="toc-text">配置pacman</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.6.</span> <span class="toc-text">安装系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E5%88%86%E5%8C%BA"><span class="toc-number">2.6.1.</span> <span class="toc-text">挂载分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8pacstrap%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.6.2.</span> <span class="toc-text">使用pacstrap安装系统.</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.7.</span> <span class="toc-text">配置系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90fstab"><span class="toc-number">2.7.1.</span> <span class="toc-text">生成fstab</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5chroot"><span class="toc-number">2.7.2.</span> <span class="toc-text">进入chroot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%8C%BA"><span class="toc-number">2.7.3.</span> <span class="toc-text">设置时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96"><span class="toc-number">2.7.4.</span> <span class="toc-text">本地化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-number">2.7.5.</span> <span class="toc-text">网络配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9root%E5%AF%86%E7%A0%81"><span class="toc-number">2.7.6.</span> <span class="toc-text">修改root密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.7.7.</span> <span class="toc-text">安装引导程序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%90%AF"><span class="toc-number">2.8.</span> <span class="toc-text">重启</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8C%85%E4%B8%8E%E5%BF%85%E5%A4%87%E8%BD%AF%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">基本包与必备软件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#python-packages"><span class="toc-number">3.1.1.</span> <span class="toc-text">python packages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#npm-packages"><span class="toc-number">3.1.2.</span> <span class="toc-text">npm packages</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">3.2.</span> <span class="toc-text">创建普通用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2"><span class="toc-number">3.3.</span> <span class="toc-text">安装图形界面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85S-Server"><span class="toc-number">3.3.1.</span> <span class="toc-text">安装S-Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85i3"><span class="toc-number">3.3.2.</span> <span class="toc-text">安装i3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85lightdm"><span class="toc-number">3.3.3.</span> <span class="toc-text">安装lightdm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icon"><span class="toc-number">3.3.4.</span> <span class="toc-text">icon</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0archlinuxcn"><span class="toc-number">3.4.</span> <span class="toc-text">添加archlinuxcn</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E6%8D%A2cap%E4%B8%8E%E5%B7%A6ctrl"><span class="toc-number">3.5.</span> <span class="toc-text">交换cap与左ctrl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8NumberLock"><span class="toc-number">3.6.</span> <span class="toc-text">开机自动启动NumberLock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.7.</span> <span class="toc-text">中文设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%AE%E5%BA%A6%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.8.</span> <span class="toc-text">亮度设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E9%9F%B3%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.9.</span> <span class="toc-text">声音设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.10.</span> <span class="toc-text">摄像头设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Git%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.11.</span> <span class="toc-text">Git设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEssh"><span class="toc-number">3.11.1.</span> <span class="toc-text">设置ssh</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clash%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.12.</span> <span class="toc-text">clash设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98"><span class="toc-number">3.13.</span> <span class="toc-text">挂载磁盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Latex"><span class="toc-number">3.14.</span> <span class="toc-text">安装Latex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">3.15.</span> <span class="toc-text">安装虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%AE%BF%E9%97%AE%E5%AE%BF%E4%B8%BB%E6%9C%BAUSB%E8%AE%BE%E5%A4%87"><span class="toc-number">3.15.1.</span> <span class="toc-text">从虚拟机访问宿主机USB设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%89%A9%E5%B1%95%E5%8C%85"><span class="toc-number">3.15.2.</span> <span class="toc-text">安装扩展包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blog"><span class="toc-number">3.16.</span> <span class="toc-text">Blog</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5-wifi"><span class="toc-number">3.17.</span> <span class="toc-text">连接 wifi</span></a></li></ol></li></ol></div></div></div><footer><nobr>published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><div id="cursor-container"><div id="cursor-outer"></div><div id="cursor-effect"></div></div><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();mermaid.init(undefined, ('.mermaid'));}</script><script src="//unpkg.com/@highlightjs/cdn-assets@11.4.0/highlight.min.js"></script><script src="/js/arknights.js"></script><script>window.addEventListener("load",()=>{reset()})</script></body></html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>正式入驻Github(雾) | CoronaのBlog</title><script>var config = {"root":"/","path":""}</script><script src="//unpkg.com/mermaid@8.13.5/dist/mermaid.min.js"></script><script>mermaid.initialize({
+ startOnLoad: true
+ , theme: 'dark'
+});</script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.4.0/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.2"></head><body style="background-image:url(https://ak.hypergryph.com/assets/index/images/ak/pc/bk.jpg);"><main><header class="closed"><nav><div class="navBtn"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><ol class="navContent"><li class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></li><li class="navItem"><a class="navBlock" href="/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav><div class="search-popup"><div id="search-result"></div></div></header><article><div id="post-bg"><div id="post-title"><h1>正式入驻Github(雾)</h1><div id="post-info"><span>First Post: <div class="control"><time datetime="2022-02-08T14:39:00.000Z" id="date"> 2022-02-08</time></div></span><br><span>Last Update: <div class="control"><time datetime="2022-11-18T14:58:58.322Z" id="updated"> 2022-11-18</time></div></span><br><span>Word Count: <div class="control">809</div></span><br><span>Read Time: <div class="control">2 min</div></span></div></div><hr><div id="post-content"><h1 id="正式入住Github"><a href="#正式入住Github" class="headerlink" title="正式入住Github"></a>正式入住Github</h1><p>阮一峰说过(<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html">大概是他说的吧</a>)</p>
+<blockquote>
+<p>喜欢写Blog的人，会经历三个阶段。</p>
+<blockquote>
+<p>第一阶段，刚接触Blog，觉得很新鲜，试着选择一个免费空间来写。<br>第二阶段，发现免费空间限制太多，就自己购买域名和空间，搭建独立博客。<br>第三阶段，觉得独立博客的管理太麻烦，最好在保留控制权的前提下，让别人来管，自己只负责写文章。</p>
+</blockquote>
+</blockquote>
+<p>在经历了使用<a target="_blank" rel="noopener" href="https://cnblogs.com/corona09">博客园</a>, 自行搭建网站后, 我感受到了以上两种方式都很不方便.<br>我都需要打开浏览器, 在浏览器中写内容. 或者在本地写好后, 将内容复制到浏览器中. 而复制的过程中往往会导致格式的错落等问题. 以及, 这些写作方式的最麻烦的还是对图片的处理. 每当要在文章中上传一张图片时, 就需要将图片上传到图床. 要么使用额外的软件, 要么就得手动上传.</p>
+<p>这很劝退! <del>很不优雅!</del></p>
+<p>终于, 还是选择了使用Github来搭建博客.</p>
+<p>此后就在这里记录学习到的东西了(大概)!</p>
+<hr>
+<p>现在可以开始搬运了, 等所有有用的博客搬运完毕, 那个粗制滥造的网站就可以停止运行了!</p>
+<hr>
+<h1 id="偷懒秘诀"><a href="#偷懒秘诀" class="headerlink" title="偷懒秘诀"></a>偷懒秘诀</h1><p>2022-02-10</p>
+<p>搬运工作已经完成, 为了方便推送文章, 写了一个<code>makefile</code>, 在vim中写完文章之后只需要打开内置终端执行<code>make</code>就能推送到github.<br>在推送时会检查目录下是否存在<code>msg.txt</code>文件, 如果该文件存在则会读取其内容, 添加到commit message中; 如果不存在则生成时间信息作为commit message.<br>为了避免提交信息重复, 因此每次提交结束后都会清空msg.txt文件.<br>执行<code>make clean</code>就能删除空白文件夹并清空msg.txt.</p>
+<p>2022-02-13</p>
+<p>添加了gitee pages, 同时, 为了同步文章(同步文章而非public文件夹下的静态网页文件), 我为博客文章也创建了一个git仓库, 这下就有三个远程仓库了. 因此对Makefile进行了大改, 将推送的规则拆成了三条, 分别推送到三个仓库.</p>
+<p>重构后的Makefile有点长, 这里就不列出来了.</p>
+<p>2022-02-13 22:41</p>
+<p>好像gitee pages有点问题…先不搞gitee pages.</p>
+<p>gitee太愚蠢了, 不搞了</p>
+<hr>
+<h1 id="写作规范"><a href="#写作规范" class="headerlink" title="写作规范"></a>写作规范</h1><p>因为页面的生成是依赖于内容的, 因此需要着重注意下文件的一些规范.</p>
+<h2 id="文件命名"><a href="#文件命名" class="headerlink" title="文件命名"></a>文件命名</h2><p>文件命名以数字开头, 数字无前缀零, 后跟小写英文单词, 尽量避免中文. 单词之间以段横线连接.</p>
+<p>因为最终博客文章网址会与文件名有关, 因此应该尽量避免文件名的更改.</p>
+<h2 id="Tag"><a href="#Tag" class="headerlink" title="Tag"></a>Tag</h2><p>因为感觉<code>分类</code>与<code>Tag</code>有一定的重复, 因此我将<code>分类</code>从主页中去除了, 只保留了<code>Tag</code>.</p>
+<p>Tag在命名时, 如果是英文开头, 则首字母大写. 要避免出现<code>Linux</code>与<code>linux</code>同时出现这种情况.</p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div id="footer-link" style="right: calc(50% - 1px);order: 1;border-right: 1px solid #fe2;padding-left: unset;max-width: calc(50% - 4px);"><a href="/2022/02/09/05-simulated-annealing/">← Next 退火算法学习笔记</a></div></div></div></div><div id="bottom-btn"><a id="to-index" href="#toc-div" title="index">≡</a><a id="to-top" onClick="scrolls.scrolltop();" title="to top" style="opacity: 0; display: none;">∧</a></div></article><aside><div id="aside-top"><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a target="_blank" rel="noopener" href="https://github.com/Corona09">Corona</a></h1><div id="description"></div></div><div id="aside-block"><div id="toc-div"><h1>INDEX</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AD%A3%E5%BC%8F%E5%85%A5%E4%BD%8FGithub"><span class="toc-number">1.</span> <span class="toc-text">正式入住Github</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%B7%E6%87%92%E7%A7%98%E8%AF%80"><span class="toc-number">2.</span> <span class="toc-text">偷懒秘诀</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E4%BD%9C%E8%A7%84%E8%8C%83"><span class="toc-number">3.</span> <span class="toc-text">写作规范</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%91%BD%E5%90%8D"><span class="toc-number">3.1.</span> <span class="toc-text">文件命名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tag"><span class="toc-number">3.2.</span> <span class="toc-text">Tag</span></a></li></ol></li></ol></div></div></div><footer><nobr>published with <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> Theme <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight</a></nobr><wbr><nobr>by <a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><div id="cursor-container"><div id="cursor-outer"></div><div id="cursor-effect"></div></div><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();mermaid.init(undefined, ('.mermaid'));}</script><script src="//unpkg.com/@highlightjs/cdn-assets@11.4.0/highlight.min.js"></script><script src="/js/arknights.js"></script><script>window.addEventListener("load",()=>{reset()})</script></body></html>
